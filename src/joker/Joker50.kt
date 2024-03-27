@@ -1,4 +1,7 @@
-package main
+package joker
+
+import main.Player
+import main.Question
 
 open class Joker50(player: Player) : Joker(type = "Joker50", player) {
 

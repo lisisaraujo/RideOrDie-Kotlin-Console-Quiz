@@ -70,15 +70,24 @@ val kotlinQuestions: MutableList<Question> =
 
 
 fun main() {
+
     val quiz = Quiz()
     quiz.startGame()
-    quiz.generateQuestion()
-var player1 = quiz.listOfPlayers.first()
-    var player2 = quiz.listOfPlayers.last()
-    player1.answer()
-    player2.answer()
-    quiz.validateAnswer(player1)
-    quiz.validateAnswer(player2)
-    quiz.defineWinner()
-    quiz.endGame()
+    val player1 = quiz.listOfPlayers.first()
+    val player2 = quiz.listOfPlayers.last()
+
+    if (player1.ageCheck() && player2.ageCheck()) {
+        do {
+            quiz.generateQuestion()
+            player1.answer()
+            player2.answer()
+            quiz.validateAnswer(player1)
+            quiz.validateAnswer(player2)
+        } while (quiz.listOfQuestions.size > 0)
+
+        quiz.defineWinner()
+        quiz.endGame()
+    }
+
+
 }

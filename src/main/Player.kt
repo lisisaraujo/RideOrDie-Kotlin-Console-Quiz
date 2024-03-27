@@ -1,5 +1,8 @@
 package main
 
+import joker.Joker
+import joker.Joker50
+
 class Player(val name: String, val age: Int) {
     var answer: Int = 0
     var lives: Int = 3
@@ -9,12 +12,18 @@ class Player(val name: String, val age: Int) {
 
     init {
         score = 0
-        jokers = mutableListOf(Joker50( this ), Joker50(this))
+        jokers = mutableListOf(Joker50(this), Joker50(this))
     }
 
-    fun ageCheck() {
-        if (age < 12) println("Player is too young to play.")
-        else println("Welcome to the game, $name!")
+    fun ageCheck(): Boolean {
+        var isOldEnough = false
+        if (age < 12) {
+            println("Player is too young to play.")
+        } else {
+            isOldEnough = true
+            println("Welcome to the game, $name!")
+        }
+        return isOldEnough
     }
 
     fun useJoker(question: Question) {
@@ -37,7 +46,7 @@ class Player(val name: String, val age: Int) {
     }
 
     fun answer() {
-        println("Type your answer: ")
+        println("${this.name}, type your answer: ")
         answer = readln().toInt()
     }
 

@@ -3,7 +3,7 @@ package main
 class Quiz(
 
 
-    ) {
+) {
     var listOfPlayers: MutableList<Player> = mutableListOf()
     val listOfQuestions: MutableList<Question> = kotlinQuestions
     var roundCount: Int = 1
@@ -20,39 +20,43 @@ class Quiz(
         var player1Age = readln().toInt()
         var player1 = Player(player1Name, player1Age)
         player1.ageCheck()
-      print("Player 2 name: ")
+        print("Player 2 name: ")
         var player2Name = readln().lowercase()
         print("Player 2 age: ")
         var player2Age = readln().toInt()
         var player2 = Player(player2Name, player2Age)
         player2.ageCheck()
         listOfPlayers.add(player1)
-       listOfPlayers.add(player2)
+        listOfPlayers.add(player2)
 
         if (listOfPlayers.size >= 2) {
             if (roundCount < 1) println("Game started.Round $roundCount")
             else println("New game started. Round $roundCount")
             roundCount++
-        } else println("Not enough players for the game to start. Let another player join.")
+        } else {
+            println("Not enough players for the game to start. Let another player join.")
+            startGame()
+        }
     }
 
     fun generateQuestion(): String {
         currentQuestion = listOfQuestions.random()
         currentQuestion.showQuestion()
-        for(player in listOfPlayers){
+        for (player in listOfPlayers) {
             player.questions.add(currentQuestion)
         }
         listOfQuestions.remove(currentQuestion)
         return currentQuestion.questionText
     }
+
     fun validateAnswer(player: Player): Boolean {
         var isAnswerCorrect = false
         if (player.answer == currentQuestion.correctAnswer) {
-            println("--------- Correct answer! ---------")
+            println("${player.name} --------- Correct answer! ---------")
             isAnswerCorrect = true
             player.score += 5
         } else {
-            println("--------- Wrong answer! ---------")
+            println("${player.name} --------- Wrong answer! ---------")
             player.lives -= 1
         }
 
