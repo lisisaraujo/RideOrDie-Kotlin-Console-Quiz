@@ -5,11 +5,8 @@ open class Question(
     open val questionText: String,
     open val category: String,
     open val possibleAnswers: List<String>,
-
+     val correctAnswer: Int
     ) {
-    open var playersAnswer = ""
-    open val correctAnswer = ""
-    open var isAnswerCorrect = false
 
     open fun showQuestion() {
         var i = 1
@@ -20,24 +17,6 @@ open class Question(
         }
 
     }
-
-    open fun playersInput(): String {
-        println("Your answer:")
-        playersAnswer = readln()
-        return playersAnswer
-    }
-
-    fun validateAnswer(): Boolean {
-        if (playersAnswer == correctAnswer) {
-            println("--------- Correct answer! ---------")
-            isAnswerCorrect = true
-        } else println("--------- Wrong answer! ---------")
-        return isAnswerCorrect
-    }
-
-/*    open fun updateScore() {
-        if (isAnswerCorrect) player.score += 5
-    }*/
 
 
 }

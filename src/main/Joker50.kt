@@ -1,9 +1,12 @@
 package main
 
-class Joker50(type: String, answers: List<String>): Joker(type, answers) {
+open class Joker50(player: Player) : Joker(type = "Joker50", player) {
 
-    override fun useJoker() {
-        super.useJoker()
-        println("The correct answer is either $answers")
+
+
+    override fun useJoker(question: Question) {
+        super.useJoker(question)
+        var answersOptions: List<Any> = listOf(question.possibleAnswers.random(), question.correctAnswer).shuffled()
+        println("Select the correct answer: $answersOptions")
     }
 }

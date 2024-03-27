@@ -1,8 +1,8 @@
 package main
 
-open class Joker (open var type: String, open var answers: List<String>){
+open class Joker(open var type: String, var player: Player) {
 
-    open fun useJoker(){
+    open fun useJoker(question: Question) {
         println("🃏🃏🃏🃏🃏 Joker $type in use 🃏🃏🃏🃏🃏")
     }
 }

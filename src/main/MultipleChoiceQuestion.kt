@@ -1,7 +1,9 @@
+/*
 package main
 
 class MultipleChoiceQuestion(
     correctAnswer: Int,
+    player: Player,
     difficultyLevel: Int,
     questionText: String,
     category: String,
@@ -16,4 +18,4 @@ class MultipleChoiceQuestion(
     var question: Map<String, List<String>> = mapOf(questionText to possibleAnswers)
 
 
-}
+}*/
