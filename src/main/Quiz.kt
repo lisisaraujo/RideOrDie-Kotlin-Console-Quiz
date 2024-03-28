@@ -1,11 +1,15 @@
 package main
 
+import main.Players.Player
+import main.Questions.MultipleChoiceQuestion
+import main.Questions.Question
+
 class Quiz(
 
 
 ) {
     var listOfPlayers: MutableList<Player> = mutableListOf()
-    val listOfQuestions: MutableList<Question> = kotlinQuestions
+    val listOfQuestions: MutableList<MultipleChoiceQuestion> = kotlinQuestions
     var roundCount: Int = 1
     var winnerExists = false
     var winner: Player = Player("random", 0)

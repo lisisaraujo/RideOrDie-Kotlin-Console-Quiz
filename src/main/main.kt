@@ -1,6 +1,8 @@
 package main
 
-val kotlinQuestion1 = Question(
+import main.Questions.MultipleChoiceQuestion
+
+val kotlinQuestion1 = MultipleChoiceQuestion(
     difficultyLevel = 1,
     questionText = "What is Kotlin used for?",
     category = "Kotlin",
@@ -13,7 +15,7 @@ val kotlinQuestion1 = Question(
     correctAnswer = 0
 )
 
-val kotlinQuestion2 = Question(
+val kotlinQuestion2 = MultipleChoiceQuestion(
     difficultyLevel = 1,
     questionText = "Difference between Kotlin and Java?",
     category = "Kotlin",
@@ -26,7 +28,7 @@ val kotlinQuestion2 = Question(
     correctAnswer = 1
 )
 
-val kotlinQuestion3 = Question(
+val kotlinQuestion3 = MultipleChoiceQuestion(
     difficultyLevel = 1,
     questionText = "Difference between val and var in Kotlin?",
     category = "Kotlin",
@@ -39,7 +41,7 @@ val kotlinQuestion3 = Question(
     correctAnswer = 2
 )
 
-val kotlinQuestion4 = Question(
+val kotlinQuestion4 = MultipleChoiceQuestion(
     difficultyLevel = 1,
     questionText = "Difference between function and method in Kotlin?",
     category = "Kotlin",
@@ -53,7 +55,7 @@ val kotlinQuestion4 = Question(
     correctAnswer = 3
 )
 
-val kotlinQuestion5 = Question(
+val kotlinQuestion5 = MultipleChoiceQuestion(
     difficultyLevel = 1,
     questionText = "Difference between data class and regular class in Kotlin?",
     category = "Kotlin",
@@ -65,7 +67,7 @@ val kotlinQuestion5 = Question(
     ),
     correctAnswer = 0
 )
-val kotlinQuestions: MutableList<Question> =
+val kotlinQuestions: MutableList<MultipleChoiceQuestion> =
     mutableListOf(kotlinQuestion1, kotlinQuestion2, kotlinQuestion3, kotlinQuestion4, kotlinQuestion5)
 
 

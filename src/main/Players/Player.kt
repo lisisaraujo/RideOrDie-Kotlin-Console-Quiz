@@ -1,8 +1,9 @@
-package main
+package main.Players
 
-import joker.Joker
-import joker.Joker100
-import joker.Joker50
+import main.Jokers.Joker
+import main.Jokers.Joker100
+import main.Jokers.Joker50
+import main.Questions.Question
 
 open class Player(val name: String, val age: Int) {
     var answer: Int = 0
