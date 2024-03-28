@@ -1,4 +1,6 @@
 package main
 
-class HumanPlayer {
+class HumanPlayer(name: String, age: Int): Player(name, age) {
+
+
 }

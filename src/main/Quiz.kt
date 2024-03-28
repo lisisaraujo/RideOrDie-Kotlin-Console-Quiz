@@ -8,35 +8,35 @@ class Quiz(
     val listOfQuestions: MutableList<Question> = kotlinQuestions
     var roundCount: Int = 1
     var winnerExists = false
-    var winner = ""
+    var winner: Player = Player("random", 0)
     var currentQuestion: Question = listOfQuestions.random()
 
 
     fun startGame() {
-        println("Define the two players for this round: ")
-        print("Player 1 name: ")
-        var player1Name = readln().lowercase()
-        print("Player 1 age: ")
-        var player1Age = readln().toInt()
-        var player1 = Player(player1Name, player1Age)
-        player1.ageCheck()
-        print("Player 2 name: ")
-        var player2Name = readln().lowercase()
-        print("Player 2 age: ")
-        var player2Age = readln().toInt()
-        var player2 = Player(player2Name, player2Age)
-        player2.ageCheck()
-        listOfPlayers.add(player1)
-        listOfPlayers.add(player2)
+        println("Define the two players for this round.")
+        println("Player 1: ")
+        generatePlayer()
+        println("Player 2: ")
+        generatePlayer()
 
         if (listOfPlayers.size >= 2) {
-            if (roundCount < 1) println("Game started.Round $roundCount")
+            if (roundCount < 1) println("Game started. Round $roundCount")
             else println("New game started. Round $roundCount")
             roundCount++
         } else {
             println("Not enough players for the game to start. Let another player join.")
-            startGame()
+         generatePlayer()
         }
+    }
+
+    fun generatePlayer(){
+        print("Name: ")
+        val name = readln().lowercase()
+        print("Age: ")
+        val age = readln().toInt()
+        val player = Player(name, age)
+        player.ageCheck()
+        listOfPlayers.add(player)
     }
 
     fun generateQuestion(): String {
@@ -49,9 +49,16 @@ class Quiz(
         return currentQuestion.questionText
     }
 
+    fun useJokerQuestion(player: Player, question: Question) {
+        println("${player.name}, Would you like to use a joker? Yes / No")
+        val answer = readln().lowercase()
+        if (answer == "yes") player.useJoker(question)
+        else return
+    }
+
     fun validateAnswer(player: Player): Boolean {
         var isAnswerCorrect = false
-        if (player.answer == currentQuestion.correctAnswer) {
+        if (player.answer - 1 == currentQuestion.correctAnswer) {
             println("${player.name} --------- Correct answer! ---------")
             isAnswerCorrect = true
             player.score += 5
@@ -67,15 +74,15 @@ class Quiz(
 
         when {
             listOfPlayers.first().score > listOfPlayers.last().score -> {
-                winner = listOfPlayers.first().name
+                winner = listOfPlayers.first()
                 winnerExists = true
-                println("$winner is the winner!")
+                println("${winner.name} is the winner!")
             }
 
             listOfPlayers.first().score < listOfPlayers.last().score -> {
-                winner = listOfPlayers.last().name
+                winner = listOfPlayers.last()
                 winnerExists = true
-                println("$winner is the winner!")
+                println("${winner.name} is the winner!")
             }
 
             else -> println("It's a tie!")
@@ -84,7 +91,7 @@ class Quiz(
     }
 
     fun endGame() {
-        if (winnerExists) println("End of game. $winner won.")
+        if (winnerExists) println("End of game. ${winner.name} won with ${winner.score} points")
         return
     }
 }

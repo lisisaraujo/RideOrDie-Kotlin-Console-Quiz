@@ -10,7 +10,7 @@ val kotlinQuestion1 = Question(
         "Exclusively for web development.",
         "Limited to scientific computing."
     ),
-    correctAnswer = 1
+    correctAnswer = 0
 )
 
 val kotlinQuestion2 = Question(
@@ -23,7 +23,7 @@ val kotlinQuestion2 = Question(
         "Kotlin is a subset of Java.",
         "Java is more concise than Kotlin."
     ),
-    correctAnswer = 2
+    correctAnswer = 1
 )
 
 val kotlinQuestion3 = Question(
@@ -36,7 +36,7 @@ val kotlinQuestion3 = Question(
         "val is immutable, var is mutable.",
         "val and var are interchangeable in Kotlin."
     ),
-    correctAnswer = 3
+    correctAnswer = 2
 )
 
 val kotlinQuestion4 = Question(
@@ -50,7 +50,7 @@ val kotlinQuestion4 = Question(
         "Functions cannot have parameters, methods can.",
         "Function is standalone, method is associated with a class.",
     ),
-    correctAnswer = 4
+    correctAnswer = 3
 )
 
 val kotlinQuestion5 = Question(
@@ -63,7 +63,7 @@ val kotlinQuestion5 = Question(
         "Regular class has default implementations.",
         "Data class is less flexible than a regular class."
     ),
-    correctAnswer = 1
+    correctAnswer = 0
 )
 val kotlinQuestions: MutableList<Question> =
     mutableListOf(kotlinQuestion1, kotlinQuestion2, kotlinQuestion3, kotlinQuestion4, kotlinQuestion5)
@@ -79,10 +79,13 @@ fun main() {
     if (player1.ageCheck() && player2.ageCheck()) {
         do {
             quiz.generateQuestion()
+            quiz.useJokerQuestion(player1, quiz.currentQuestion)
             player1.answer()
+            quiz.useJokerQuestion(player2, quiz.currentQuestion)
             player2.answer()
             quiz.validateAnswer(player1)
             quiz.validateAnswer(player2)
+            println("Correct answer: ${quiz.currentQuestion.correctAnswer} ")
         } while (quiz.listOfQuestions.size > 0)
 
         quiz.defineWinner()

@@ -10,7 +10,7 @@ open class Question(
 
     open fun showQuestion() {
         var i = 1
-        println("Question: $questionText")
+        println("\n Question: $questionText \n")
         for (answer in possibleAnswers) {
             println("$i. $answer")
             i++
