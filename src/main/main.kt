@@ -85,7 +85,6 @@ fun main() {
             player2.answer()
             quiz.validateAnswer(player1)
             quiz.validateAnswer(player2)
-            println("Correct answer: ${quiz.currentQuestion.correctAnswer} ")
         } while (quiz.listOfQuestions.size > 0)
 
         quiz.defineWinner()

@@ -15,8 +15,5 @@ open class Question(
             println("$i. $answer")
             i++
         }
-
     }
-
-
 }

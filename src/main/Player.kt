@@ -33,17 +33,21 @@ open class Player(val name: String, val age: Int) {
         for (joker in jokers) println(joker.type)
         println("which type of joker do you want to use? Joker50 / Joker100")
         val typeOfJoker = readln().lowercase()
-        if (typeOfJoker == "joker50") {
-            val selectedJoker = jokers.find { it.type.lowercase() == typeOfJoker }
-            if (selectedJoker != null) {
-                jokers.remove(selectedJoker)
-                return selectedJoker.playJoker(question)
-            } else {
-                println("No $typeOfJoker found.")
-                return question
-            }
+        if (typeOfJoker == "joker50" || typeOfJoker == "joker100") {
+            selectedJokerPlay(question, typeOfJoker)
         }
         return question
+    }
+
+    private fun selectedJokerPlay(question: Question, typeOfJoker: String): Question {
+        val selectedJoker = jokers.find { it.type.lowercase() == typeOfJoker }
+        if (selectedJoker != null) {
+            jokers.remove(selectedJoker)
+            return selectedJoker.playJoker(question)
+        } else {
+            println("No $typeOfJoker found.")
+            return question
+        }
     }
 
     fun answer() {
