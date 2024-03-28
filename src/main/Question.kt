@@ -5,7 +5,7 @@ open class Question(
     open val questionText: String,
     open val category: String,
     open val possibleAnswers: List<String>,
-     val correctAnswer: Int
+    var correctAnswer: Int
     ) {
 
     open fun showQuestion() {

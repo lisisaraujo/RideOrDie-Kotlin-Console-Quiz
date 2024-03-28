@@ -25,11 +25,11 @@ class Quiz(
             roundCount++
         } else {
             println("Not enough players for the game to start. Let another player join.")
-         generatePlayer()
+            generatePlayer()
         }
     }
 
-    fun generatePlayer(){
+    fun generatePlayer() {
         print("Name: ")
         val name = readln().lowercase()
         print("Age: ")
@@ -52,8 +52,8 @@ class Quiz(
     fun useJokerQuestion(player: Player, question: Question) {
         println("${player.name}, Would you like to use a joker? Yes / No")
         val answer = readln().lowercase()
-        if (answer == "yes") player.useJoker(question)
-        else return
+        if (answer == "yes") currentQuestion = player.useJoker(question)
+        else currentQuestion = question
     }
 
     fun validateAnswer(player: Player): Boolean {
