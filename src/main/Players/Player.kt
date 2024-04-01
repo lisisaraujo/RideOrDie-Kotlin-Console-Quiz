@@ -3,6 +3,7 @@ package main.Players
 import main.Jokers.Joker
 import main.Jokers.Joker100
 import main.Jokers.Joker50
+import main.Questions.MultipleChoiceQuestion
 import main.Questions.Question
 
 open class Player(val name: String, val age: Int) {
@@ -29,7 +30,7 @@ open class Player(val name: String, val age: Int) {
     }
 
 
-    fun useJoker(question: Question): Question {
+    fun useJoker(question: MultipleChoiceQuestion): MultipleChoiceQuestion {
         println("You have ${jokers.size} jokers to use:")
         for (joker in jokers) println(joker.type)
         println("which type of joker do you want to use? Joker50 / Joker100")
@@ -40,7 +41,7 @@ open class Player(val name: String, val age: Int) {
         return question
     }
 
-    private fun selectedJokerPlay(question: Question, typeOfJoker: String): Question {
+    private fun selectedJokerPlay(question: MultipleChoiceQuestion, typeOfJoker: String): MultipleChoiceQuestion {
         val selectedJoker = jokers.find { it.type.lowercase() == typeOfJoker }
         if (selectedJoker != null) {
             jokers.remove(selectedJoker)

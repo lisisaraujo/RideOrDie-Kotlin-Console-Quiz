@@ -1,6 +1,6 @@
 package main.Questions
 
-class MultipleChoiceQuestion(
+class TrueOrFalseQuestion(
     difficultyLevel: Int,
     questionText: String,
     category: String,
@@ -16,10 +16,11 @@ class MultipleChoiceQuestion(
 
     override fun showQuestion() {
         super.showQuestion()
-
+        var i = 1
         println("\n Question: $questionText \n")
         for (answer in possibleAnswers) {
-            println(answer)
+            println("$i. $answer")
+            i++
         }
     }
 }

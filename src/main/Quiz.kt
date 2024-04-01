@@ -13,7 +13,7 @@ class Quiz(
     var roundCount: Int = 1
     var winnerExists = false
     var winner: Player = Player("random", 0)
-    var currentQuestion: Question = listOfQuestions.random()
+    var currentQuestion: MultipleChoiceQuestion = listOfQuestions.random()
 
 
     fun startGame() {
@@ -53,7 +53,7 @@ class Quiz(
         return currentQuestion.questionText
     }
 
-    fun useJokerQuestion(player: Player, question: Question) {
+    fun useJokerQuestion(player: Player, question: MultipleChoiceQuestion) {
         println("${player.name}, Would you like to use a joker? Yes / No")
         val answer = readln().lowercase()
         if (answer == "yes") currentQuestion = player.useJoker(question)
@@ -62,7 +62,7 @@ class Quiz(
 
     fun validateAnswer(player: Player): Boolean {
         var isAnswerCorrect = false
-        if (player.answer - 1 == currentQuestion.correctAnswer) {
+        if (player.answer == currentQuestion.correctAnswer) {
             println("${player.name} --------- Correct answer! ---------")
             isAnswerCorrect = true
             player.score += 5
