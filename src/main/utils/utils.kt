@@ -1,18 +1,20 @@
-package main.utils
-
 import main.Questions.MultipleChoiceQuestion
+import main.Questions.Question
+import main.Questions.TrueOrFalseQuestion
+import kotlin.jvm.internal.Intrinsics.Kotlin
 
-// kotlin questions (multiple-choice)
+
+// multiple-choice kotlin questions
 
 val kotlinQuestion1 = MultipleChoiceQuestion(
     difficultyLevel = 1,
     questionText = "What is Kotlin used for?",
     category = "Kotlin",
     possibleAnswers = listOf(
-        "Developing Android apps, web applications, and software.",
-        "Only for developing iOS apps.",
-        "Exclusively for web development.",
-        "Limited to scientific computing."
+        "1. Developing Android apps, web applications, and software.",
+        "2. Only for developing iOS apps.",
+        "3. Exclusively for web development.",
+        "4. Limited to scientific computing."
     ),
     correctAnswer = 1
 )
@@ -22,10 +24,10 @@ val kotlinQuestion2 = MultipleChoiceQuestion(
     questionText = "Difference between Kotlin and Java?",
     category = "Kotlin",
     possibleAnswers = listOf(
-        "Java is newer and safer than Kotlin.",
-        "Kotlin is newer, safer, and more concise.",
-        "Kotlin is a subset of Java.",
-        "Java is more concise than Kotlin."
+        "1. Java is newer and safer than Kotlin.",
+        "2. Kotlin is newer, safer, and more concise.",
+        "3. Kotlin is a subset of Java.",
+        "4. Java is more concise than Kotlin."
     ),
     correctAnswer = 2
 )
@@ -35,10 +37,10 @@ val kotlinQuestion3 = MultipleChoiceQuestion(
     questionText = "Difference between val and var in Kotlin?",
     category = "Kotlin",
     possibleAnswers = listOf(
-        "Both val and var are immutable.",
-        "val can be changed, var is constant.",
-        "val is immutable, var is mutable.",
-        "val and var are interchangeable in Kotlin."
+        "1. Both val and var are immutable.",
+        "2. val can be changed, var is constant.",
+        "3. val is immutable, var is mutable.",
+        "4. val and var are interchangeable in Kotlin."
     ),
     correctAnswer = 3
 )
@@ -49,10 +51,10 @@ val kotlinQuestion4 = MultipleChoiceQuestion(
     category = "Kotlin",
     possibleAnswers = listOf(
 
-        "Functions can only be used in classes.",
-        "Methods are standalone, functions are associated with classes.",
-        "Functions cannot have parameters, methods can.",
-        "Function is standalone, method is associated with a class.",
+        "1. Functions can only be used in classes.",
+        "2. Methods are standalone, functions are associated with classes.",
+        "3. Functions cannot have parameters, methods can.",
+        "4. Function is standalone, method is associated with a class.",
     ),
     correctAnswer = 4
 )
@@ -62,12 +64,25 @@ val kotlinQuestion5 = MultipleChoiceQuestion(
     questionText = "Difference between data class and regular class in Kotlin?",
     category = "Kotlin",
     possibleAnswers = listOf(
-        "Data class has default implementations, regular class does not.",
-        "Data class cannot have properties.",
-        "Regular class has default implementations.",
-        "Data class is less flexible than a regular class."
+        "1. Data class has default implementations, regular class does not.",
+        "2. Data class cannot have properties.",
+        "3. Regular class has default implementations.",
+        "4. Data class is less flexible than a regular class."
     ),
     correctAnswer = 1
 )
- val kotlinQuestions: MutableList<MultipleChoiceQuestion> =
+val kotlinMultipleChoiceQuestions: MutableList<MultipleChoiceQuestion> =
     mutableListOf(kotlinQuestion1, kotlinQuestion2, kotlinQuestion3, kotlinQuestion4, kotlinQuestion5)
+
+// true of false kotlin questions
+
+val kotlinQuestion6 = TrueOrFalseQuestion(2,"Kotlin is a purely functional programming language.", "Kotlin", listOf("1. True", "2. False"), 1 )
+val kotlinQuestion7 = TrueOrFalseQuestion(2,"Kotlin's standard library does not include extensions for working with collections.", "Kotlin", listOf("1. True", "2. False"), 1 )
+val kotlinQuestion8 = TrueOrFalseQuestion(2,"Kotlin's null safety feature prevents null pointer exceptions at compile time.", "Kotlin", listOf("1. True", "2. False"), 2 )
+val kotlinQuestion9 = TrueOrFalseQuestion(2,"In Kotlin, the \"when\" expression is equivalent to Java's \"switch\" statement.", "Kotlin", listOf("1. True", "2. False"), 2 )
+val kotlinQuestion10 = TrueOrFalseQuestion(2,"Kotlin's coroutines are primarily used for concurrent programming tasks.", "Kotlin", listOf("1. True", "2. False"), 1 )
+
+val kotlinTrueOrFalseQuestions: MutableList<TrueOrFalseQuestion> = mutableListOf(kotlinQuestion6, kotlinQuestion7, kotlinQuestion8, kotlinQuestion9, kotlinQuestion10)
+
+val kotlinQuestions: MutableList<Question> = mutableListOf()
+

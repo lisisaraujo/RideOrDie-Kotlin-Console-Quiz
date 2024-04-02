@@ -5,10 +5,17 @@ open class Question(
     open val questionText: String,
     open val category: String,
     open val possibleAnswers: List<String>,
-    open var correctAnswer: Int
+    open val correctAnswer: Int
 ) {
 
     open fun showQuestion() {
         println("-------- $category questions --------")
+
+        println("\n Question: $questionText \n")
+        for (answer in possibleAnswers) {
+            println(answer)
+        }
+
     }
+
 }
