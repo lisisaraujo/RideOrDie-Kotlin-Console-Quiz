@@ -5,7 +5,7 @@ import main.Players.Player
 import main.Questions.MultipleChoiceQuestion
 import main.Questions.Question
 
-open class Quiz(
+class Quiz(
 
 ) {
 

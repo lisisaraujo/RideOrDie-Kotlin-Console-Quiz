@@ -3,7 +3,8 @@ package main
 import kotlinMultipleChoiceQuestions
 import kotlinQuestions
 import kotlinTrueOrFalseQuestions
-
+import main.Questions.MultipleChoiceQuestion
+import main.Questions.Question
 
 
 fun main() {
