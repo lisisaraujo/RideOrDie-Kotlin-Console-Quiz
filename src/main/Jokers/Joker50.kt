@@ -25,10 +25,10 @@ open class Joker50(player: Player) : Joker(type = "Joker50", player) {
         var answersListWithoutCorrectAnswer: MutableList<String> = mutableListOf()
         var possibleAnswersList: MutableList<String> = mutableListOf()
         for (answer in question.possibleAnswers) {
-            if (answer != question.possibleAnswers[question.correctAnswer]) answersListWithoutCorrectAnswer.add(answer)
+            if (answer != question.possibleAnswers[question.correctAnswer - 1]) answersListWithoutCorrectAnswer.add(answer)
         }
         possibleAnswersList =
-            mutableListOf(question.possibleAnswers[question.correctAnswer], answersListWithoutCorrectAnswer.last())
+            mutableListOf(question.possibleAnswers[question.correctAnswer - 1], answersListWithoutCorrectAnswer.last())
         return possibleAnswersList
     }
 }
