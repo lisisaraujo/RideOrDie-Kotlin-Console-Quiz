@@ -14,5 +14,13 @@ class MultipleChoiceQuestion(
     correctAnswer
 
 ) {
+    override fun showQuestion() {
+        println("-------- $category questions --------")
 
+        println("\n Question: $questionText \n")
+        for (answer in possibleAnswers) {
+            println(answer)
+        }
+
+    }
 }

@@ -5,6 +5,7 @@ import main.Jokers.Joker100
 import main.Jokers.Joker50
 import main.Questions.MultipleChoiceQuestion
 import main.Questions.Question
+import main.Questions.TrueOrFalseQuestion
 
 open class Player(val name: String, val age: Int) {
     var answer: Int = 0
@@ -20,26 +21,63 @@ open class Player(val name: String, val age: Int) {
 
     fun ageCheck(): Boolean {
         var isOldEnough = false
-        if (age < 12) {
-            println("Player is too young to play.")
-        } else {
-            isOldEnough = true
-            println("Welcome to the game, $name!")
-        }
+        if (age < 12) println("Player is too young to play.")
+        else isOldEnough = true
+
         return isOldEnough
     }
 
 
-    fun useJoker(question: Question): Question {
+    fun useJoker(question: MultipleChoiceQuestion): MultipleChoiceQuestion {
         println("You have ${jokers.size} jokers to use:")
         for (joker in jokers) println(joker.type)
         println("which type of joker do you want to use? Joker50 / Joker100")
         val typeOfJoker = readln().lowercase()
-        if (typeOfJoker == "joker50" || typeOfJoker == "joker100") {
-            selectedJokerPlay(question, typeOfJoker)
+
+
+        val selectedJoker = when (typeOfJoker) {
+            "joker50" -> Joker50(this)
+            "joker100" -> Joker100(this)
+            else -> null
         }
-        return question
+        if (selectedJoker != null) {
+            return selectedJoker.playJoker(question)
+        } else {
+            println("Invalid joker type.")
+            return question
+        }
     }
+
+    fun useJoker(question: TrueOrFalseQuestion): TrueOrFalseQuestion {
+        println("You have ${jokers.size} jokers to use:")
+        for (joker in jokers) println(joker.type)
+        println("which type of joker do you want to use? Joker50 / Joker100")
+        val typeOfJoker = readln().lowercase()
+
+
+        val selectedJoker = when (typeOfJoker) {
+            "joker50" -> Joker50(this)
+            "joker100" -> Joker100(this)
+            else -> null
+        }
+        if (selectedJoker != null) {
+            return selectedJoker.playJoker(question)
+        } else {
+            println("Invalid joker type.")
+            return question
+        }
+    }
+
+    /*    fun useJoker(question: TrueOrFalseQuestion): TrueOrFalseQuestion {
+            println("You have ${jokers.size} jokers to use:")
+            for (joker in jokers) println(joker.type)
+            println("which type of joker do you want to use? Joker50 / Joker100")
+            val typeOfJoker = readln().lowercase()
+            if (typeOfJoker == "joker50" || typeOfJoker == "joker100") {
+                selectedJokerPlay(question, typeOfJoker)
+            }
+            return question
+        }*/
 
     private fun selectedJokerPlay(question: Question, typeOfJoker: String): Question {
         val selectedJoker = jokers.find { it.type.lowercase() == typeOfJoker }
@@ -52,12 +90,22 @@ open class Player(val name: String, val age: Int) {
         }
     }
 
+
+    /*    private fun selectedJokerPlay(question: TrueOrFalseQuestion, typeOfJoker: String): TrueOrFalseQuestion {
+            val selectedJoker = jokers.find { it.type.lowercase() == typeOfJoker }
+            if (selectedJoker != null) {
+                jokers.remove(selectedJoker)
+                return selectedJoker.playJoker(question)
+            } else {
+                println("No $typeOfJoker found.")
+                return question
+            }
+        }*/
+
     fun answer() {
         println("${this.name}, type your answer: ")
         answer = readln().toInt()
     }
-
-    var map: MutableMap<String, Int> = mutableMapOf("Lisis" to 30)
 
 
 }

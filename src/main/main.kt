@@ -3,35 +3,29 @@ package main
 import kotlinMultipleChoiceQuestions
 import kotlinQuestions
 import kotlinTrueOrFalseQuestions
-import main.Questions.MultipleChoiceQuestion
-import main.Questions.Question
 
 
 fun main() {
     kotlinQuestions.addAll(kotlinMultipleChoiceQuestions)
     kotlinQuestions.addAll(kotlinTrueOrFalseQuestions)
-    println(kotlinQuestions)
 
     val quiz = Quiz()
     quiz.startGame()
-    val player1 = quiz.listOfPlayers.first()
-    val player2 = quiz.listOfPlayers.last()
+    println("🃏 Type 7 anytime to use a joker 🃏")
+    do {
+        for (player in quiz.listOfPlayers) {
+            if (player.ageCheck()) {
+                quiz.generateQuestion()
+                player.answer()
+                if (player.answer == 7) {
+                    quiz.useJokerQuestion(player, quiz.currentQuestion)
+                    player.answer()
+                }
+                quiz.validateAnswer(player)
+            }
+        }
+    } while (quiz.listOfQuestions.isNotEmpty())
 
-    if (player1.ageCheck() && player2.ageCheck()) {
-        do {
-
-            quiz.generateQuestion()
-            quiz.useJokerQuestion(player1, quiz.currentQuestion)
-            player1.answer()
-            quiz.useJokerQuestion(player2, quiz.currentQuestion)
-            player2.answer()
-            quiz.validateAnswer(player1)
-            quiz.validateAnswer(player2)
-        } while (quiz.listOfQuestions.size > 0)
-
-        quiz.defineWinner()
-        quiz.endGame()
-    }
-
-
+    quiz.defineWinner()
+    quiz.endGame()
 }

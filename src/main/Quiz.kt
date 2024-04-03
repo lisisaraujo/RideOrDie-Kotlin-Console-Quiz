@@ -4,26 +4,27 @@ import kotlinQuestions
 import main.Players.Player
 import main.Questions.MultipleChoiceQuestion
 import main.Questions.Question
+import main.Questions.TrueOrFalseQuestion
 
 class Quiz(
 
 ) {
-
-
     var listOfPlayers: MutableList<Player> = mutableListOf()
     val listOfQuestions: MutableList<Question> = kotlinQuestions
     var roundCount: Int = 1
     var winnerExists = false
-    var winner: Player = Player("random", 0)
+    var winner: Player = Player("", 0)
     var currentQuestion: Question = listOfQuestions.random()
 
 
     fun startGame() {
-        println("Define the two players for this round.")
-        println("Player 1: ")
-        generatePlayer()
-        println("Player 2: ")
-        generatePlayer()
+        println("How many players? 2 - 4")
+        var numOfPlayer = readln().toInt()
+
+        repeat(numOfPlayer) {
+            println("Player ${it + 1}: ")
+            generatePlayer()
+        }
 
         if (listOfPlayers.size >= 2) {
             if (roundCount < 1) println("Game started. Round $roundCount")
@@ -41,10 +42,18 @@ class Quiz(
         print("Age: ")
         val age = readln().toInt()
         val player = Player(name, age)
-        player.ageCheck()
-        listOfPlayers.add(player)
+        if(player.ageCheck()){
+            listOfPlayers.add(player)
+        }
+
+        println("Players in this round: ")
+        for(player in listOfPlayers){
+            println(player.name)
+        }
     }
+
     fun generateQuestion(): String {
+        val currentQuestion: Question = listOfQuestions.random()
         currentQuestion.showQuestion()
         for (player in listOfPlayers) {
             player.questions.add(currentQuestion)
@@ -53,12 +62,25 @@ class Quiz(
         return currentQuestion.questionText
     }
 
-    fun useJokerQuestion(player: Player, question: Question) {
+    fun useJokerQuestion(player: Player, question: Question): Boolean {
+        currentQuestion = question
+        var useJoker = false
         println("${player.name}, Would you like to use a joker? Yes / No")
         val answer = readln().lowercase()
-        if (answer == "yes") currentQuestion = player.useJoker(question)
-        else currentQuestion = question
+        if (answer == "yes") {
+            useJoker = true
+            println("Which type of joker do you want to use? Joker50 / Joker100")
+            currentQuestion = when (question) {
+                is MultipleChoiceQuestion -> player.useJoker(question)
+                is TrueOrFalseQuestion -> player.useJoker(question)
+                else -> question
+            }
+        } else {
+            currentQuestion = question
+        }
+        return useJoker
     }
+
 
     fun validateAnswer(player: Player): Boolean {
         var isAnswerCorrect = false
@@ -75,22 +97,27 @@ class Quiz(
     }
 
     fun defineWinner(): Boolean {
+        var playersScores: MutableList<Int> = mutableListOf()
 
-        when {
-            listOfPlayers.first().score > listOfPlayers.last().score -> {
-                winner = listOfPlayers.first()
-                winnerExists = true
-                println("${winner.name} is the winner!")
-            }
-
-            listOfPlayers.first().score < listOfPlayers.last().score -> {
-                winner = listOfPlayers.last()
-                winnerExists = true
-                println("${winner.name} is the winner!")
-            }
-
-            else -> println("It's a tie!")
+        for (player in listOfPlayers) {
+            playersScores.add(player.score)
         }
+
+        val highestScore = playersScores.maxOrNull()
+
+        if (highestScore != null) {
+            val winners = listOfPlayers.filter { it.score == highestScore }
+            if (winners.size == 1) {
+                winner = winners[0]
+                println("${winner.name} is the winner!")
+                winnerExists = true
+            } else println("It's a tie!")
+        }
+
+        for(player in listOfPlayers){
+            println("${player.name}: ${player.score} points.")
+        }
+
         return winnerExists
     }
 
