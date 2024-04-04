@@ -76,11 +76,11 @@ val kotlinMultipleChoiceQuestions: MutableList<MultipleChoiceQuestion> =
 
 // true of false kotlin questions
 
-val kotlinQuestion6 = TrueOrFalseQuestion(2,"Kotlin is a purely functional programming language.", "Kotlin", listOf("1. True", "2. False"), 1 )
-val kotlinQuestion7 = TrueOrFalseQuestion(2,"Kotlin's standard library does not include extensions for working with collections.", "Kotlin", listOf("1. True", "2. False"), 1 )
-val kotlinQuestion8 = TrueOrFalseQuestion(2,"Kotlin's null safety feature prevents null pointer exceptions at compile time.", "Kotlin", listOf("1. True", "2. False"), 2 )
-val kotlinQuestion9 = TrueOrFalseQuestion(2,"In Kotlin, the \"when\" expression is equivalent to Java's \"switch\" statement.", "Kotlin", listOf("1. True", "2. False"), 2 )
-val kotlinQuestion10 = TrueOrFalseQuestion(2,"Kotlin's coroutines are primarily used for concurrent programming tasks.", "Kotlin", listOf("1. True", "2. False"), 1 )
+val kotlinQuestion6 = TrueOrFalseQuestion(2,"Kotlin is a purely functional programming language.", "Kotlin", listOf("1. True", "2. False"), true )
+val kotlinQuestion7 = TrueOrFalseQuestion(2,"Kotlin's standard library does not include extensions for working with collections.", "Kotlin", listOf("1. True", "2. False"), true )
+val kotlinQuestion8 = TrueOrFalseQuestion(2,"Kotlin's null safety feature prevents null pointer exceptions at compile time.", "Kotlin", listOf("1. True", "2. False"), false )
+val kotlinQuestion9 = TrueOrFalseQuestion(2,"In Kotlin, the \"when\" expression is equivalent to Java's \"switch\" statement.", "Kotlin", listOf("1. True", "2. False"), false )
+val kotlinQuestion10 = TrueOrFalseQuestion(2,"Kotlin's coroutines are primarily used for concurrent programming tasks.", "Kotlin", listOf("1. True", "2. False"), false )
 
 val kotlinTrueOrFalseQuestions: MutableList<TrueOrFalseQuestion> = mutableListOf(kotlinQuestion6, kotlinQuestion7, kotlinQuestion8, kotlinQuestion9, kotlinQuestion10)
 

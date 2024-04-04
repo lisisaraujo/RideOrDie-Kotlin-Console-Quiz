@@ -5,15 +5,18 @@ class MultipleChoiceQuestion(
     questionText: String,
     category: String,
     possibleAnswers: List<String>,
-   correctAnswer: Int
-) : Question(
+    override var correctAnswer: Int = 0
+
+    ) : Question(
     difficultyLevel,
     questionText,
     category,
     possibleAnswers,
-    correctAnswer
 
-) {
+    ) {
+
+
+
     override fun showQuestion() {
         println("-------- $category questions --------")
 

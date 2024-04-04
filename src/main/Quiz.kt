@@ -59,6 +59,7 @@ class Quiz(
             player.questions.add(currentQuestion)
         }
         listOfQuestions.remove(currentQuestion)
+
         return currentQuestion.questionText
     }
 
@@ -78,13 +79,15 @@ class Quiz(
         } else {
             currentQuestion = question
         }
+
         return useJoker
     }
 
 
     fun validateAnswer(player: Player): Boolean {
         var isAnswerCorrect = false
-        if (player.answer == currentQuestion.correctAnswer) {
+
+        if (player.answerMultipleChoice == currentQuestion.correctAnswer || player.answerTrueOfFalse == currentQuestion.correctAnswer) {
             println("${player.name} --------- Correct answer! ---------")
             isAnswerCorrect = true
             player.score += 5

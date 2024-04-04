@@ -3,6 +3,8 @@ package main
 import kotlinMultipleChoiceQuestions
 import kotlinQuestions
 import kotlinTrueOrFalseQuestions
+import main.Questions.MultipleChoiceQuestion
+import main.Questions.TrueOrFalseQuestion
 
 
 fun main() {
@@ -11,15 +13,19 @@ fun main() {
 
     val quiz = Quiz()
     quiz.startGame()
-    println("🃏 Type 7 anytime to use a joker 🃏")
+    println("🃏 Type 'joker' to request a joker at any time 🃏")
+
     do {
         for (player in quiz.listOfPlayers) {
             if (player.ageCheck()) {
                 quiz.generateQuestion()
-                player.answer()
-                if (player.answer == 7) {
+                println("${player.name}, type your answer: ")
+                val playersAnswer = readln()
+                if (playersAnswer != "joker") {
+                    player.answer(quiz.currentQuestion)
+                } else {
                     quiz.useJokerQuestion(player, quiz.currentQuestion)
-                    player.answer()
+                    player.answer(quiz.currentQuestion)
                 }
                 quiz.validateAnswer(player)
             }

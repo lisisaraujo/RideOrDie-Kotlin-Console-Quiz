@@ -5,8 +5,9 @@ open class Question(
     open val questionText: String,
     open val category: String,
     open val possibleAnswers: List<String>,
-    open val correctAnswer: Int
 ) {
+
+   open val correctAnswer: Any? = 0
 
     open fun showQuestion() {
         println("-------- $category questions --------")
