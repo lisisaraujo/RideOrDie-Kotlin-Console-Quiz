@@ -8,13 +8,13 @@ import main.Questions.Question
 import main.Questions.TrueOrFalseQuestion
 
 open class Player(val name: String, val age: Int) {
-    var answerMultipleChoice: Int = 0
-    var answerTrueOfFalse: Boolean = false
-    var lives: Int = 3
-    var score: Int = 0
-    var jokers: MutableList<Joker> = mutableListOf()
-    var questions: MutableList<Question> = mutableListOf()
-    var playerAnswer: Any = 0
+    open var answerMultipleChoice: Int = 0
+    open var answerTrueOfFalse: Boolean = false
+    open var lives: Int = 3
+    open var score: Int = 0
+    open var jokers: MutableList<Joker> = mutableListOf()
+    open var questions: MutableList<Question> = mutableListOf()
+    open var playerAnswer: Any = 0
 
 
     init {
@@ -31,7 +31,7 @@ open class Player(val name: String, val age: Int) {
     }
 
 
-    fun useJoker(question: MultipleChoiceQuestion): MultipleChoiceQuestion {
+    open fun useJoker(question: MultipleChoiceQuestion): MultipleChoiceQuestion {
         println("You have ${jokers.size} jokers to use:")
         for (joker in jokers) println(joker.type)
         println("which type of joker do you want to use? Joker50 / Joker100")
@@ -42,9 +42,8 @@ open class Player(val name: String, val age: Int) {
             "joker100" -> jokers.find { it is Joker100 }
             else -> null
         }
-
         if (selectedJoker != null) {
-            jokers.removeIf { it == selectedJoker }
+            jokers.removeIf { it == selectedJoker } // code line from perplexity
             return selectedJoker.playJoker(question)
         } else {
             println("Invalid joker type.")
@@ -52,13 +51,11 @@ open class Player(val name: String, val age: Int) {
         }
     }
 
-    fun useJoker(question: TrueOrFalseQuestion): TrueOrFalseQuestion {
+    open fun useJoker(question: TrueOrFalseQuestion): TrueOrFalseQuestion {
         println("You have ${jokers.size} jokers to use:")
         for (joker in jokers) println(joker.type)
         println("which type of joker do you want to use? Joker50 / Joker100")
         val typeOfJoker = readln().lowercase()
-
-
         val selectedJoker = when (typeOfJoker) {
             "joker50" -> jokers.find { it is Joker50 }
             "joker100" -> jokers.find { it is Joker100 }
@@ -85,7 +82,7 @@ open class Player(val name: String, val age: Int) {
     }
 
 
-    fun answer(question: Question): Any {
+    open fun answer(question: Question): Any {
         val jokerRequest: String
         println("${this.name}, type your answer: ")
         when (question) {
@@ -93,7 +90,6 @@ open class Player(val name: String, val age: Int) {
                 answerMultipleChoice = readln().toInt()
                 playerAnswer = answerMultipleChoice
             }
-
             is TrueOrFalseQuestion -> {
                 answerTrueOfFalse = readln().toBoolean()
                 playerAnswer = answerTrueOfFalse
@@ -107,9 +103,4 @@ open class Player(val name: String, val age: Int) {
         return playerAnswer
     }
 
-
-    fun jokerRequest(): String {
-        val jokerRequest = readln()
-        return jokerRequest
-    }
 }

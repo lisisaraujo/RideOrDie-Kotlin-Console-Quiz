@@ -1,6 +1,7 @@
 package main
 
 import kotlinQuestions
+import MachinePlayer
 import main.Players.Player
 import main.Questions.MultipleChoiceQuestion
 import main.Questions.Question
@@ -19,7 +20,7 @@ class Quiz(
 
     fun startGame() {
         println("How many players? 2 - 4")
-        var numOfPlayer = readln().toInt()
+        val numOfPlayer = readln().toInt()
 
         repeat(numOfPlayer) {
             println("Player ${it + 1}: ")
@@ -32,28 +33,31 @@ class Quiz(
             roundCount++
         } else {
             println("Not enough players for the game to start. Let another player join.")
-            generatePlayer()
         }
+        println("Would you like to play against the machine? Yes / No")
+        val machinePlayAnswer = readln().lowercase()
+        if (machinePlayAnswer == "yes") listOfPlayers.add(MachinePlayer("Machine3000", 18))
+        else generatePlayer()
     }
 
-    fun generatePlayer() {
+    private fun generatePlayer() {
         print("Name: ")
         val name = readln().lowercase()
         print("Age: ")
         val age = readln().toInt()
         val player = Player(name, age)
-        if(player.ageCheck()){
+        if (player.ageCheck()) {
             listOfPlayers.add(player)
         }
 
         println("Players in this round: ")
-        for(player in listOfPlayers){
+        for (player in listOfPlayers) {
             println(player.name)
         }
     }
 
     fun generateQuestion(): String {
-       currentQuestion = listOfQuestions.random()
+        currentQuestion = listOfQuestions.random()
         currentQuestion.showQuestion()
         for (player in listOfPlayers) {
             player.questions.add(currentQuestion)
@@ -66,20 +70,14 @@ class Quiz(
     fun useJokerQuestion(player: Player, question: Question): Boolean {
         currentQuestion = question
         var useJoker = false
-        println("${player.name}, Would you like to use a joker? Yes / No")
-        val answer = readln().lowercase()
-        if (answer == "yes") {
-            useJoker = true
-            println("Which type of joker do you want to use? Joker50 / Joker100")
-            currentQuestion = when (question) {
-                is MultipleChoiceQuestion -> player.useJoker(question)
-                is TrueOrFalseQuestion -> player.useJoker(question)
-                else -> question
-            }
-        } else {
-            currentQuestion = question
-        }
 
+        println("Which type of joker do you want to use? Joker50 / Joker100")
+        currentQuestion = when (question) {
+            is MultipleChoiceQuestion -> player.useJoker(question)
+            is TrueOrFalseQuestion -> player.useJoker(question)
+            else -> question
+        }
+        useJoker = true
         return useJoker
     }
 
@@ -117,7 +115,7 @@ class Quiz(
             } else println("It's a tie!")
         }
 
-        for(player in listOfPlayers){
+        for (player in listOfPlayers) {
             println("${player.name}: ${player.score} points.")
         }
 
