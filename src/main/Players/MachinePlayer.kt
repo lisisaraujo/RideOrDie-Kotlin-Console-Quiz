@@ -32,19 +32,31 @@ class MachinePlayer(name: String, age: Int) : Player(name = "Machine3000", age =
         val randomJokerRequest = listOf(playerAnswer, playerAnswer, "joker")
         val randomTrueOrFalse = listOf(true, false)
         val randomMultipleChoiceAnswer = listOf(1, 2, 3, 4)
+        val useJoker = listOf(true, false, false, false, false)
         println("${this.name}, type your answer: ")
+
         when (question) {
             is MultipleChoiceQuestion -> {
-                playerAnswer = randomMultipleChoiceAnswer.random()
+                if (useJoker.random()) {
+                    playerAnswer = useJoker(question)
+                } else {
+                    playerAnswer = randomMultipleChoiceAnswer.random()
+                }
             }
+
             is TrueOrFalseQuestion -> {
-                playerAnswer = randomTrueOrFalse.random()
+                if (useJoker.random()) {
+                    playerAnswer = useJoker(question)
+                } else {
+                    playerAnswer = randomTrueOrFalse.random()
+                }
             }
+
             else -> {
                 playerAnswer = randomJokerRequest.random()
             }
         }
-        println("${this.name} answer: $playerAnswer")
+        println("${this.name} answer: ${playerAnswer}")
         return playerAnswer
     }
 }

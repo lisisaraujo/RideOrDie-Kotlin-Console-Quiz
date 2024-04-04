@@ -5,6 +5,7 @@ import kotlinQuestions
 import kotlinTrueOrFalseQuestions
 import main.Players.HumanPlayer
 import MachinePlayer
+import main.Players.Player
 import main.Questions.MultipleChoiceQuestion
 import main.Questions.TrueOrFalseQuestion
 
@@ -19,12 +20,11 @@ fun main() {
 
     do {
         for (player in quiz.listOfPlayers) {
-            if (player.ageCheck()) {
+
                 quiz.generateQuestion()
                 if (player !is MachinePlayer) {
-                    println("${player.name}, type your answer: ")
-                    val playersAnswer = readln()
-                    if (playersAnswer != "joker") {
+
+                    if (player.playerAnswer != "joker") {
                         player.answer(quiz.currentQuestion)
                     } else {
                         quiz.useJokerQuestion(player, quiz.currentQuestion)
@@ -34,9 +34,6 @@ fun main() {
                     player.answer(quiz.currentQuestion)
                 }
                 quiz.validateAnswer(player)
-
-            }
-
         }
     } while (quiz.listOfQuestions.isNotEmpty())
 

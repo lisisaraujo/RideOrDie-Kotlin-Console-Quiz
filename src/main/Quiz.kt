@@ -2,6 +2,7 @@ package main
 
 import kotlinQuestions
 import MachinePlayer
+import main.Players.HumanPlayer
 import main.Players.Player
 import main.Questions.MultipleChoiceQuestion
 import main.Questions.Question
@@ -38,16 +39,21 @@ class Quiz(
         val machinePlayAnswer = readln().lowercase()
         if (machinePlayAnswer == "yes") listOfPlayers.add(MachinePlayer("Machine3000", 18))
         else generatePlayer()
+
     }
 
     private fun generatePlayer() {
+        println("Add player:")
         print("Name: ")
         val name = readln().lowercase()
         print("Age: ")
         val age = readln().toInt()
-        val player = Player(name, age)
+        val player = HumanPlayer(name, age)
         if (player.ageCheck()) {
             listOfPlayers.add(player)
+        } else {
+            println("Player is too young")
+            generatePlayer()
         }
 
         println("Players in this round: ")
