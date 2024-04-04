@@ -23,4 +23,5 @@ class Joker100(player: Player) : Joker(type = "Joker100", player) {
         println(question.possibleAnswers[question.correctAnswer - 1])
         return question
     }
+
 }

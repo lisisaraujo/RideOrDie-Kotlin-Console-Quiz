@@ -53,7 +53,7 @@ class Quiz(
     }
 
     fun generateQuestion(): String {
-        val currentQuestion: Question = listOfQuestions.random()
+       currentQuestion = listOfQuestions.random()
         currentQuestion.showQuestion()
         for (player in listOfPlayers) {
             player.questions.add(currentQuestion)
