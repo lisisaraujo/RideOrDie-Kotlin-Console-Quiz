@@ -48,4 +48,3 @@ class MachinePlayer(name: String, age: Int) : Player(name = "Machine3000", age =
         return playerAnswer
     }
 }
-
