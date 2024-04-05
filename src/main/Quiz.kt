@@ -2,6 +2,8 @@ package main
 
 import kotlinQuestions
 import MachinePlayer
+import main.Colours.RESET
+import main.Colours.WHITE_BACKGROUND
 import main.Players.HumanPlayer
 import main.Players.Player
 import main.Questions.MultipleChoiceQuestion
@@ -17,15 +19,37 @@ class Quiz(
     var winnerExists = false
     var winner: Player = Player("", 0)
     var currentQuestion: Question = listOfQuestions.random()
+    var maxPlayers = 4
 
+    private fun numOfPlayers(): Int {
+        var input: Int? = null
+
+        while (input == null) {
+            println("How many players? 1 - 4")
+            val inputString = readlnOrNull()
+
+            if (inputString != null) {
+                try {
+                    input = inputString.toInt()
+                    if (input !in 1..4) {
+                        println("Invalid number of players. Please enter a number between 1 and 4.")
+                        input = null
+                    }
+                } catch (e: NumberFormatException) {
+                    println("Invalid input. Please enter a number between 1 and 4.")
+                }
+            }
+        }
+        return input
+    }
 
     fun startGame() {
-        println("How many players? 2 - 4")
-        val numOfPlayer = readln().toInt()
+        val numOfPlayers = numOfPlayers()
 
-        repeat(numOfPlayer) {
+        repeat(numOfPlayers) {
             println("Player ${it + 1}: ")
             generatePlayer()
+
         }
 
         if (listOfPlayers.size >= 2) {

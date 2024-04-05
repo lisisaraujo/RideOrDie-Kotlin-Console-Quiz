@@ -1,13 +1,10 @@
 package main
 
+import MachinePlayer
 import kotlinMultipleChoiceQuestions
 import kotlinQuestions
 import kotlinTrueOrFalseQuestions
-import main.Players.HumanPlayer
-import MachinePlayer
-import main.Players.Player
-import main.Questions.MultipleChoiceQuestion
-import main.Questions.TrueOrFalseQuestion
+import main.Colours.*
 
 
 fun main() {
@@ -15,12 +12,24 @@ fun main() {
     kotlinQuestions.addAll(kotlinTrueOrFalseQuestions)
 
     val quiz = Quiz()
+    println("""$BOLD $rot
+         (      (      (                  )    (        (       (             
+ )\ )   )\ )   )\ )            ( /(    )\ )     )\ )    )\ )          
+(()/(  (()/(  (()/(    (       )\())  (()/(    (()/(   (()/(   (      
+ /(_))  /(_))  /(_))   )\     ((_)\    /(_))    /(_))   /(_))  )\     
+(_))   (_))   (_))_   ((_)      ((_)  (_))     (_))_   (_))   ((_)    
+| _ \  |_ _|   |   \  | __|    / _ \  | _ \     |   \  |_ _|  | __|   
+|   /   | |    | |) | | _|    | (_) | |   /     | |) |  | |   | _|    
+|_|_\  |___|   |___/  |___|    \___/  |_|_\     |___/  |___|  |___|   
+                                                                      
+
+     $reset""".trimIndent())
+    println("$BOLD $rot $WHITE_BACKGROUND 🤡 Welcome to final 'Ride Or Die' Kotlin quiz! 🤡 $RESET $reset")
     quiz.startGame()
-    println("🃏 Type 'joker' to request a joker at any time 🃏")
+    println("$blauBack 🃏 Type 'joker' to request a joker at any time 🃏 $reset" )
 
     do {
         for (player in quiz.listOfPlayers) {
-
                 quiz.generateQuestion()
                 if (player !is MachinePlayer) {
 

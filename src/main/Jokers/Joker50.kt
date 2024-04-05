@@ -1,8 +1,6 @@
 package main.Jokers
-
 import main.Players.Player
 import main.Questions.MultipleChoiceQuestion
-import main.Questions.Question
 
 open class Joker50(player: Player) : Joker(type = "Joker50", player) {
 
