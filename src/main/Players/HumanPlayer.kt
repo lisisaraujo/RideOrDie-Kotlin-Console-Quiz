@@ -68,7 +68,6 @@ class HumanPlayer(name: String, age: Int): Player(name, age) {
                 answerTrueOfFalse = readln().toBoolean()
                 playerAnswer = answerTrueOfFalse
             }
-
             else -> {
                 jokerRequest = readln()
                 playerAnswer = jokerRequest

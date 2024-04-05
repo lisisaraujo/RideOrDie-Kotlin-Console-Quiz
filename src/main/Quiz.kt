@@ -2,8 +2,6 @@ package main
 
 import kotlinQuestions
 import MachinePlayer
-import main.Colours.RESET
-import main.Colours.WHITE_BACKGROUND
 import main.Players.HumanPlayer
 import main.Players.Player
 import main.Questions.MultipleChoiceQuestion
@@ -14,7 +12,7 @@ class Quiz(
 
 ) {
     var listOfPlayers: MutableList<Player> = mutableListOf()
-    val listOfQuestions: MutableList<Question> = kotlinQuestions
+    var listOfQuestions: MutableList<Question> = kotlinQuestions
     var roundCount: Int = 1
     var winnerExists = false
     var winner: Player = Player("", 0)
@@ -31,7 +29,7 @@ class Quiz(
             if (inputString != null) {
                 try {
                     input = inputString.toInt()
-                    if (input !in 1..4) {
+                    if (input !in 1..maxPlayers) {
                         println("Invalid number of players. Please enter a number between 1 and 4.")
                         input = null
                     }
@@ -51,18 +49,16 @@ class Quiz(
             generatePlayer()
 
         }
-
         if (listOfPlayers.size >= 2) {
             if (roundCount < 1) println("Game started. Round $roundCount")
             else println("New game started. Round $roundCount")
-            roundCount++
         } else {
             println("Not enough players for the game to start. Let another player join.")
+            println("Would you like to play against the machine? Yes / No")
+            val machinePlayAnswer = readln().lowercase()
+            if (machinePlayAnswer == "yes") listOfPlayers.add(MachinePlayer("Machine3000", 18))
+            else generatePlayer()
         }
-        println("Would you like to play against the machine? Yes / No")
-        val machinePlayAnswer = readln().lowercase()
-        if (machinePlayAnswer == "yes") listOfPlayers.add(MachinePlayer("Machine3000", 18))
-        else generatePlayer()
 
     }
 
@@ -76,7 +72,6 @@ class Quiz(
         if (player.ageCheck()) {
             listOfPlayers.add(player)
         } else {
-            println("Player is too young")
             generatePlayer()
         }
 
@@ -93,7 +88,6 @@ class Quiz(
             player.questions.add(currentQuestion)
         }
         listOfQuestions.remove(currentQuestion)
-
         return currentQuestion.questionText
     }
 
@@ -152,8 +146,29 @@ class Quiz(
         return winnerExists
     }
 
-    fun endGame() {
-        if (winnerExists) println("End of game. ${winner.name} won with ${winner.score} points")
-        return
+    fun endGame(): Boolean {
+        var gameEnded = false
+        if (winnerExists) {
+            println("End of game. ${winner.name} won with ${winner.score} points")
+            gameEnded = true
+        }
+        return gameEnded
+
+    }
+
+
+    fun startNewRound(): Boolean {
+        var playNewRoundInput: String?
+        var newRound = false
+        if (endGame()) {
+            println("Would you like to play another round? Yes / No")
+            playNewRoundInput = readln().lowercase()
+            if (playNewRoundInput == "yes") {
+                newRound = true
+                roundCount++
+                listOfQuestions = kotlinQuestions
+            }
+        }
+        return newRound
     }
 }

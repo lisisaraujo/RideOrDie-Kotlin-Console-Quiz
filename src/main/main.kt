@@ -8,11 +8,13 @@ import main.Colours.*
 
 
 fun main() {
+
     kotlinQuestions.addAll(kotlinMultipleChoiceQuestions)
     kotlinQuestions.addAll(kotlinTrueOrFalseQuestions)
 
     val quiz = Quiz()
-    println("""$BOLD $rot
+    println(
+        """$BOLD $rot
          (      (      (                  )    (        (       (             
  )\ )   )\ )   )\ )            ( /(    )\ )     )\ )    )\ )          
 (()/(  (()/(  (()/(    (       )\())  (()/(    (()/(   (()/(   (      
@@ -23,16 +25,18 @@ fun main() {
 |_|_\  |___|   |___/  |___|    \___/  |_|_\     |___/  |___|  |___|   
                                                                       
 
-     $reset""".trimIndent())
+     $reset""".trimIndent()
+    )
     println("$BOLD $rot $WHITE_BACKGROUND 🤡 Welcome to final 'Ride Or Die' Kotlin quiz! 🤡 $RESET $reset")
     quiz.startGame()
-    println("$blauBack 🃏 Type 'joker' to request a joker at any time 🃏 $reset" )
+    println("$blauBack 🃏 Type 'joker' to request a joker at any time 🃏 $reset")
 
-    do {
-        for (player in quiz.listOfPlayers) {
+    fun playRound() {
+        do {
+            for (player in quiz.listOfPlayers) {
                 quiz.generateQuestion()
                 if (player !is MachinePlayer) {
-
+                   player.playerAnswer = readln().lowercase()
                     if (player.playerAnswer != "joker") {
                         player.answer(quiz.currentQuestion)
                     } else {
@@ -43,9 +47,18 @@ fun main() {
                     player.answer(quiz.currentQuestion)
                 }
                 quiz.validateAnswer(player)
-        }
-    } while (quiz.listOfQuestions.isNotEmpty())
+            }
+        } while (quiz.listOfQuestions.isNotEmpty())
 
-    quiz.defineWinner()
-    quiz.endGame()
+        quiz.defineWinner()
+        quiz.endGame()
+    }
+
+
+
+
+
+    do {
+        playRound()
+    } while (quiz.startNewRound())
 }
