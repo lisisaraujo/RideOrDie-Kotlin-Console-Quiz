@@ -32,23 +32,30 @@ fun main() {
     println("$blauBack 🃏 Type 'joker' to request a joker at any time 🃏 $reset")
 
     fun playRound() {
+
         do {
             for (player in quiz.listOfPlayers) {
-                quiz.generateQuestion()
-                println("${player.name}, type your answer: ")
-                if (player !is MachinePlayer) {
-
-
-                    if (player.playerAnswer != "joker") {
-                        player.answer(quiz.currentQuestion)
+                if(player.lives > 0) {
+                    quiz.generateQuestion()
+                    println("${player.name}, type your answer: ")
+                    if (player !is MachinePlayer) {
+                        if (player.playerAnswer != "joker") {
+                            player.answer(quiz.currentQuestion)
+                        } else {
+                            quiz.useJokerQuestion(player, quiz.currentQuestion)
+                            player.answer(quiz.currentQuestion)
+                        }
                     } else {
-                        quiz.useJokerQuestion(player, quiz.currentQuestion)
                         player.answer(quiz.currentQuestion)
                     }
+                    quiz.validateAnswer(player)
                 } else {
-                    player.answer(quiz.currentQuestion)
+                    println("${player.name}, you lost all your lives. Game over!")
+                    quiz.defineWinner()
+                    quiz.endGame()
+                    return
                 }
-                quiz.validateAnswer(player)
+
             }
         } while (quiz.listOfQuestions.isNotEmpty())
 
