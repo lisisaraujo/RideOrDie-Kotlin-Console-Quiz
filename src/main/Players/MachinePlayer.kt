@@ -6,7 +6,7 @@ import main.Questions.TrueOrFalseQuestion
 class MachinePlayer(name: String, age: Int) : Player(name = "Machine3000", age = 18) {
     override var playerAnswer: Any = 0
 
-    override fun useJoker(question: MultipleChoiceQuestion): MultipleChoiceQuestion {
+    override fun useJoker(question: Question): Question {
         val selectedJoker = jokers.random()
         if (selectedJoker != null) {
             jokers.removeIf { it == selectedJoker }
@@ -17,16 +17,6 @@ class MachinePlayer(name: String, age: Int) : Player(name = "Machine3000", age =
         }
     }
 
-    override fun useJoker(question: TrueOrFalseQuestion): TrueOrFalseQuestion {
-        val selectedJoker = jokers.random()
-        if (selectedJoker != null) {
-            jokers.removeIf { it == selectedJoker }
-            return selectedJoker.playJoker(question)
-        } else {
-            println("Invalid joker type.")
-            return question
-        }
-    }
 
     override fun answer(question: Question): Any {
         val randomJokerRequest = listOf(playerAnswer, playerAnswer, "joker")
@@ -54,7 +44,7 @@ class MachinePlayer(name: String, age: Int) : Player(name = "Machine3000", age =
             }
         }
 
-        println("${this.name} answer: $playerAnswer")
+        println("${this.name} answer: ${this.playerAnswer}")
         return playerAnswer
     }
 

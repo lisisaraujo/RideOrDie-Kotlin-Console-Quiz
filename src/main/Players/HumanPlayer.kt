@@ -17,7 +17,7 @@ class HumanPlayer(name: String, age: Int): Player(name, age) {
     }
 
 
-    override fun useJoker(question: MultipleChoiceQuestion): MultipleChoiceQuestion {
+    override fun useJoker(question: Question): Question{
         println("You have ${jokers.size} jokers to use:")
         for (joker in jokers) println(joker.type)
         println("which type of joker do you want to use? Joker50 / Joker100")
@@ -37,24 +37,6 @@ class HumanPlayer(name: String, age: Int): Player(name, age) {
         }
     }
 
-    override fun useJoker(question: TrueOrFalseQuestion): TrueOrFalseQuestion {
-        println("You have ${jokers.size} jokers to use:")
-        for (joker in jokers) println(joker.type)
-        println("which type of joker do you want to use? Joker50 / Joker100")
-        val typeOfJoker = readln().lowercase()
-        val selectedJoker = when (typeOfJoker) {
-            "joker50" -> jokers.find { it is Joker50 }
-            "joker100" -> jokers.find { it is Joker100 }
-            else -> null
-        }
-        if (selectedJoker != null) {
-            jokers.removeIf { it == selectedJoker }
-            return selectedJoker.playJoker(question)
-        } else {
-            println("Invalid joker type.")
-            return question
-        }
-    }
 
     override fun answer(question: Question): Any {
         val jokerRequest: String
@@ -68,7 +50,7 @@ class HumanPlayer(name: String, age: Int): Player(name, age) {
                 answerTrueOfFalse = readln().toBoolean()
                 playerAnswer = answerTrueOfFalse
             }
-            else -> {
+         else -> {
                 jokerRequest = readln()
                 playerAnswer = jokerRequest
             }

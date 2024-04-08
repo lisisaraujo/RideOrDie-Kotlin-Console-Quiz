@@ -76,8 +76,8 @@ class Quiz(
         }
 
         println("Players in this round: ")
-        for (player in listOfPlayers) {
-            println(player.name)
+        for (everyPlayer in listOfPlayers) {
+            println(everyPlayer.name)
         }
     }
 
@@ -93,7 +93,7 @@ class Quiz(
 
     fun useJokerQuestion(player: Player, question: Question): Boolean {
         currentQuestion = question
-        var useJoker = false
+        var useJoker: Boolean = false
 
         println("Which type of joker do you want to use? Joker50 / Joker100")
         currentQuestion = when (question) {

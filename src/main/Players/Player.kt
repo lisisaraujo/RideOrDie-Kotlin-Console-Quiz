@@ -23,11 +23,7 @@ open class Player(val name: String, val age: Int) {
     }
 
 
-    open fun useJoker(question: MultipleChoiceQuestion): MultipleChoiceQuestion {
-        return question
-    }
-
-    open fun useJoker(question: TrueOrFalseQuestion): TrueOrFalseQuestion {
+    open fun useJoker(question: Question): Question {
         return question
     }
 

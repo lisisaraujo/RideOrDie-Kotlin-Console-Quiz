@@ -35,9 +35,10 @@ fun main() {
         do {
             for (player in quiz.listOfPlayers) {
                 quiz.generateQuestion()
+                println("${player.name}, type your answer: ")
                 if (player !is MachinePlayer) {
-                    println("${player.name}, type your answer: ")
-                   player.playerAnswer = readln().lowercase()
+
+
                     if (player.playerAnswer != "joker") {
                         player.answer(quiz.currentQuestion)
                     } else {
