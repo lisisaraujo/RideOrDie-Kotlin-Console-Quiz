@@ -22,13 +22,13 @@ open class Joker50(player: Player) : Joker(type = "Joker50", player) {
                     correctAnswer = question.correctAnswer
                 )
 
-                println("Select the correct answer: ")
+                println(" \n Select the correct answer: \n")
                 copyQuestion.showQuestion()
                 return copyQuestion
             }
 
             is TrueOrFalseQuestion -> {
-                println("Joker 50 can only be applied to Multiple choice questions")
+                println(" \n Joker 50 can only be applied to Multiple choice questions  \n")
             }
         }
         return question

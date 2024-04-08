@@ -2,6 +2,7 @@ package main
 
 import MachinePlayer
 import kotlinQuestions
+import main.Colours.*
 import main.Players.HumanPlayer
 import main.Players.Player
 import main.Questions.MultipleChoiceQuestion
@@ -99,7 +100,7 @@ class Quiz(
         currentQuestion = question
         var useJoker: Boolean = false
 
-        println("Which type of joker do you want to use? Joker50 / Joker100")
+        // println("Which type of joker do you want to use? Joker50 / Joker100")
         currentQuestion = when (question) {
             is MultipleChoiceQuestion -> player.useJoker(question)
             is TrueOrFalseQuestion -> player.useJoker(question)
@@ -114,11 +115,15 @@ class Quiz(
         var isAnswerCorrect = false
 
         if (player.answerMultipleChoice == currentQuestion.correctAnswer || player.answerTrueOfFalse == currentQuestion.correctAnswer) {
-            println("${player.name} --------- Correct answer! ---------")
+            println("Checking answer...")
+            Thread.sleep(1000)
+            println("\n ${GREEN_BACKGROUND}E ${player.name} ✅ Correct answer! ✅ $RESET \n ")
             isAnswerCorrect = true
             player.score += 5
         } else {
-            println("${player.name} --------- Wrong answer! ---------")
+            println("Checking answer...")
+            Thread.sleep(1000)
+            println("\n $RED_BACKGROUND ${player.name} ❌ Wrong answer! ❌ $RESET \n")
             player.lives -= 1
         }
 
@@ -165,7 +170,7 @@ class Quiz(
         var playNewRoundInput: String?
         var newRound = false
         if (endGame()) {
-            println("Would you like to play another round? Yes / No")
+            println(" \n Would you like to play another round? Yes / No \n")
             playNewRoundInput = readln().lowercase()
             if (playNewRoundInput == "yes") {
                 newRound = true

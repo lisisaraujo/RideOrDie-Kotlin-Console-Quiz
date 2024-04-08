@@ -50,9 +50,11 @@ fun main() {
                     } else {
                         player.answer(quiz.currentQuestion)
                     }
+                    Thread.sleep(500)
                     quiz.validateAnswer(player)
+                    Thread.sleep(500)
                 } else {
-                    println("${player.name}, you lost all your lives. Game over!")
+                    println("🏴‍☠️${player.name}, you lost all your lives. Game over! 🏴‍☠️")
                     quiz.defineWinner()
                     quiz.endGame()
                     return

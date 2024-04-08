@@ -10,7 +10,7 @@ class Joker100(player: Player) : Joker(type = "Joker100", player) {
     override fun playJoker(question: Question): Question {
         when (question) {
             is MultipleChoiceQuestion -> {
-                println("In joker class $type: MultipleChoice")
+                println(" \n In joker class $type: MultipleChoice \n")
                 super.playJoker(question)
 
                 println("The the correct answer is: ")
@@ -18,10 +18,10 @@ class Joker100(player: Player) : Joker(type = "Joker100", player) {
 
             }
             is TrueOrFalseQuestion -> {
-                println("In joker class $type: TrueOrFalse")
+                println(" \n In joker class $type: TrueOrFalse \n")
                 super.playJoker(question)
 
-                println("The the correct answer is: ${question.correctAnswer}")
+                println(" \n The the correct answer is: ${question.correctAnswer} \n")
 
             }
         }

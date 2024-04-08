@@ -28,6 +28,7 @@ class MachinePlayer(name: String, age: Int) : Player(name = "Machine3000", age =
             is MultipleChoiceQuestion -> {
                 if (useJoker.random()) {
                     playerAnswer = useJoker(question)
+
                 } else {
                     playerAnswer = randomMultipleChoiceAnswer.random()
                 }
@@ -43,7 +44,7 @@ class MachinePlayer(name: String, age: Int) : Player(name = "Machine3000", age =
                 playerAnswer = randomJokerRequest.random()
             }
         }
-
+playerAnswer = playerAnswer.toString()
         println("${this.name} answer: ${this.playerAnswer}")
         return playerAnswer
     }

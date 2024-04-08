@@ -1,5 +1,7 @@
 package main.Questions
 
+import main.Colours.*
+
 open class Question(
     open val difficultyLevel: Int,
     open val questionText: String,
@@ -10,13 +12,13 @@ open class Question(
 
 
     open fun showQuestion() {
-        println("-------- $category questions: level $difficultyLevel --------")
+        println("$blau \n -------- $category questions: level $difficultyLevel -------- \n $reset")
 
         println("\n Question: $questionText \n")
         for (answer in possibleAnswers) {
             println(answer)
         }
-
+        println()
     }
 
 }
