@@ -31,11 +31,11 @@ class Quiz(
                 try {
                     input = inputString.toInt()
                     if (input !in 1..maxPlayers) {
-                        println("Invalid number of players. Please enter a number between 1 and 4.")
+                        println("$rot Invalid number of players. Please enter a number between 1 and 4. $reset")
                         input = null
                     }
                 } catch (e: NumberFormatException) {
-                    println("Invalid input. Please enter a number between 1 and 4.")
+                    println("$rot Invalid input. Please enter a number between 1 and 4. $reset")
                 }
             }
         }
@@ -44,27 +44,31 @@ class Quiz(
 
     fun startGame() {
         val numOfPlayers = numOfPlayers()
-
+var i = 1
         repeat(numOfPlayers) {
-            println("Player ${it + 1}: ")
             generatePlayer()
+        }
 
+        println("\n --------- Players in this round: --------- \n")
+        for(player in listOfPlayers) {
+            println("$i. ${player.name}")
+            i++
         }
         if (listOfPlayers.size >= 2) {
-            if (roundCount < 1) println("Game started. Round $roundCount")
-            else println("New game started. Round $roundCount")
+            if (roundCount < 1) println("\n Game started. Round $roundCount \n")
+            else println("\n New game started. Round $roundCount \n ")
         } else {
-            println("Not enough players for the game to start. Let another player join.")
-            println("Would you like to play against the machine? Yes / No")
+            println("Not enough players for the game to start. Let another player join. \n")
+            println("Would you like to play against the machine? Yes / No \n")
             val machinePlayAnswer = readln().lowercase()
-            if (machinePlayAnswer == "yes") listOfPlayers.add(MachinePlayer("Machine3000", 18))
+            if (machinePlayAnswer.contains("y")) listOfPlayers.add(MachinePlayer("Machine3000", 18))
             else generatePlayer()
         }
 
     }
 
     private fun generatePlayer() {
-        println("Add player:")
+        println("------------- Add player -------------")
         print("Name: ")
         val name = readln().lowercase()
         print("Age: ")
@@ -76,10 +80,7 @@ class Quiz(
             generatePlayer()
         }
 
-        println("Players in this round: ")
-        for (everyPlayer in listOfPlayers) {
-            println(everyPlayer.name)
-        }
+        Thread.sleep(500)
     }
 
     fun generateQuestion(): String {
@@ -157,7 +158,7 @@ class Quiz(
 
     fun endGame(): Boolean {
         var gameEnded = false
-        if (winnerExists ) {
+        if (winnerExists) {
             println("End of game. ${winner.name} won with ${winner.score} points")
             gameEnded = true
         }
@@ -175,7 +176,7 @@ class Quiz(
             if (playNewRoundInput == "yes") {
                 newRound = true
                 roundCount++
-                for(player in listOfPlayers){
+                for (player in listOfPlayers) {
                     player.resetPlayers()
                 }
 

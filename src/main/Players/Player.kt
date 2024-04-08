@@ -32,7 +32,6 @@ open class Player(val name: String, val age: Int) {
     }
 
     open fun resetPlayers() {
-        this.score = 0
         this.jokers = jokers
         this.lives = 3
     }

@@ -29,8 +29,10 @@ fun main() {
      $reset""".trimIndent()
     )
     println("$BOLD $rot $WHITE_BACKGROUND 🤡 Welcome to final 'Ride Or Die' Kotlin quiz! 🤡 $RESET $reset")
+
     quiz.startGame()
-    println("$blauBack 🃏 Type 'joker' to request a joker at any time 🃏 $reset")
+    Thread.sleep(1000)
+    println("\n $blauBack 🃏 Type 'joker' to request a joker at any time 🃏 $reset \n")
 
     fun playRound() {
 
@@ -38,6 +40,7 @@ fun main() {
             for (player in quiz.listOfPlayers) {
                 if(player.lives > 0) {
                     quiz.generateQuestion()
+
                    println("${player.name}, type your answer: ")
                     if (player !is MachinePlayer) {
                         player.playerAnswer = readln().lowercase()
@@ -69,5 +72,9 @@ fun main() {
 
     do {
         playRound()
-    } while (quiz.startNewRound())
+    } while (quiz.startNewRound() && quiz.roundCount < 3)
+
+    println("No questions left.")
+    quiz.defineWinner()
+    quiz.endGame()
 }
