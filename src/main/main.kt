@@ -36,6 +36,7 @@ fun main() {
             for (player in quiz.listOfPlayers) {
                 quiz.generateQuestion()
                 if (player !is MachinePlayer) {
+                    println("${player.name}, type your answer: ")
                    player.playerAnswer = readln().lowercase()
                     if (player.playerAnswer != "joker") {
                         player.answer(quiz.currentQuestion)
@@ -53,10 +54,6 @@ fun main() {
         quiz.defineWinner()
         quiz.endGame()
     }
-
-
-
-
 
     do {
         playRound()

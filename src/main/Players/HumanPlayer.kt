@@ -58,7 +58,7 @@ class HumanPlayer(name: String, age: Int): Player(name, age) {
 
     override fun answer(question: Question): Any {
         val jokerRequest: String
-        println("${this.name}, type your answer: ")
+
         when (question) {
             is MultipleChoiceQuestion -> {
                 answerMultipleChoice = readln().toInt()
