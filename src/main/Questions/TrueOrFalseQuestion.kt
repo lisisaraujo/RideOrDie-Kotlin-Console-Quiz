@@ -5,7 +5,7 @@ class TrueOrFalseQuestion(
     questionText: String,
     category: String,
     possibleAnswers: List<String>,
-    override val correctAnswer: Boolean = false
+    override var correctAnswer: Boolean = false
 ) : Question(
     difficultyLevel,
     questionText,
@@ -15,6 +15,7 @@ class TrueOrFalseQuestion(
 ) {
 
 
+/*
     override fun showQuestion() {
         println("-------- $category questions --------")
 
@@ -24,5 +25,6 @@ class TrueOrFalseQuestion(
         }
 
     }
+*/
 
 }

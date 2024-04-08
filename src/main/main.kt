@@ -12,6 +12,7 @@ fun main() {
     kotlinQuestions.addAll(kotlinMultipleChoiceQuestions)
     kotlinQuestions.addAll(kotlinTrueOrFalseQuestions)
 
+
     val quiz = Quiz()
     println(
         """$BOLD $rot
@@ -37,8 +38,9 @@ fun main() {
             for (player in quiz.listOfPlayers) {
                 if(player.lives > 0) {
                     quiz.generateQuestion()
-                    println("${player.name}, type your answer: ")
+                   println("${player.name}, type your answer: ")
                     if (player !is MachinePlayer) {
+                        player.playerAnswer = readln().lowercase()
                         if (player.playerAnswer != "joker") {
                             player.answer(quiz.currentQuestion)
                         } else {

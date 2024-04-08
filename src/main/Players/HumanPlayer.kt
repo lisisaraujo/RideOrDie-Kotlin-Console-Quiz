@@ -6,7 +6,7 @@ import main.Questions.MultipleChoiceQuestion
 import main.Questions.Question
 import main.Questions.TrueOrFalseQuestion
 
-class HumanPlayer(name: String, age: Int): Player(name, age) {
+class HumanPlayer(name: String, age: Int) : Player(name, age) {
 
     fun ageCheck(): Boolean {
         var isOldEnough = false
@@ -17,7 +17,7 @@ class HumanPlayer(name: String, age: Int): Player(name, age) {
     }
 
 
-    override fun useJoker(question: Question): Question{
+    override fun useJoker(question: Question): Question {
         println("You have ${jokers.size} jokers to use:")
         for (joker in jokers) println(joker.type)
         println("which type of joker do you want to use? Joker50 / Joker100")
@@ -39,20 +39,20 @@ class HumanPlayer(name: String, age: Int): Player(name, age) {
 
 
     override fun answer(question: Question): Any {
-        val jokerRequest: String
+
+
+        if (playerAnswer == "joker") {
+            println("${name}, type your answer: ")
+            playerAnswer = readln().lowercase()
+        }
 
         when (question) {
             is MultipleChoiceQuestion -> {
-                answerMultipleChoice = readln().toInt()
-                playerAnswer = answerMultipleChoice
+               answerMultipleChoice  = (playerAnswer as String).toInt()
             }
+
             is TrueOrFalseQuestion -> {
-                answerTrueOfFalse = readln().toBoolean()
-                playerAnswer = answerTrueOfFalse
-            }
-         else -> {
-                jokerRequest = readln()
-                playerAnswer = jokerRequest
+              answerTrueOfFalse = (playerAnswer as String).toBoolean()
             }
         }
         return playerAnswer

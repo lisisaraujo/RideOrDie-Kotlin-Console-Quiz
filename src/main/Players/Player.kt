@@ -31,4 +31,10 @@ open class Player(val name: String, val age: Int) {
         return playerAnswer
     }
 
+    open fun resetPlayers() {
+        this.score = 0
+        this.jokers = jokers
+        this.lives = 3
+    }
+
 }

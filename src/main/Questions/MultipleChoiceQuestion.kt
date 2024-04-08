@@ -17,7 +17,7 @@ class MultipleChoiceQuestion(
 
 
 
-    override fun showQuestion() {
+/*    override fun showQuestion() {
         println("-------- $category questions --------")
 
         println("\n Question: $questionText \n")
@@ -25,5 +25,5 @@ class MultipleChoiceQuestion(
             println(answer)
         }
 
-    }
+    }*/
 }

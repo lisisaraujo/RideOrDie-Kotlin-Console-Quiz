@@ -34,7 +34,7 @@ class MachinePlayer(name: String, age: Int) : Player(name = "Machine3000", age =
             }
             is TrueOrFalseQuestion -> {
                 if (useJoker.random()) {
-                    playerAnswer = useJoker(question)
+                    playerAnswer = question.correctAnswer
                 } else {
                     playerAnswer = randomTrueOrFalse.random()
                 }

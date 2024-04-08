@@ -1,7 +1,7 @@
 package main
 
-import kotlinQuestions
 import MachinePlayer
+import kotlinQuestions
 import main.Players.HumanPlayer
 import main.Players.Player
 import main.Questions.MultipleChoiceQuestion
@@ -12,7 +12,7 @@ class Quiz(
 
 ) {
     var listOfPlayers: MutableList<Player> = mutableListOf()
-    var listOfQuestions: MutableList<Question> = kotlinQuestions
+    var listOfQuestions = kotlinQuestions
     var roundCount: Int = 1
     var winnerExists = false
     var winner: Player = Player("", 0)
@@ -82,7 +82,11 @@ class Quiz(
     }
 
     fun generateQuestion(): String {
-        currentQuestion = listOfQuestions.random()
+        val filteredQuestions = listOfQuestions.filter { it.difficultyLevel == roundCount }
+        if (filteredQuestions.isEmpty()) {
+            return "No questions of difficulty level $roundCount available."
+        }
+        currentQuestion = filteredQuestions.random()
         currentQuestion.showQuestion()
         for (player in listOfPlayers) {
             player.questions.add(currentQuestion)
@@ -148,7 +152,7 @@ class Quiz(
 
     fun endGame(): Boolean {
         var gameEnded = false
-        if (winnerExists) {
+        if (winnerExists ) {
             println("End of game. ${winner.name} won with ${winner.score} points")
             gameEnded = true
         }
@@ -166,9 +170,13 @@ class Quiz(
             if (playNewRoundInput == "yes") {
                 newRound = true
                 roundCount++
-                listOfQuestions = kotlinQuestions
+                for(player in listOfPlayers){
+                    player.resetPlayers()
+                }
+
             }
         }
+
         return newRound
     }
 }
