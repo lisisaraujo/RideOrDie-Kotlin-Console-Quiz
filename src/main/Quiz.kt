@@ -19,7 +19,8 @@ class Quiz(
     var winner: Player = Player("", 0)
     var currentQuestion: Question = listOfQuestions.random()
     var maxPlayers = 4
-var filteredQuestions: MutableList<Question> = mutableListOf()
+    var filteredQuestions: MutableList<Question> = mutableListOf()
+    var roundWinners: MutableList<Player> = mutableListOf()
 
     private fun numOfPlayers(): Int {
         var input: Int? = null
@@ -85,7 +86,7 @@ var filteredQuestions: MutableList<Question> = mutableListOf()
     }
 
     fun generateQuestion(): String {
-         filteredQuestions = listOfQuestions.filter { it.difficultyLevel == roundCount }.toMutableList()
+        filteredQuestions = listOfQuestions.filter { it.difficultyLevel == roundCount }.toMutableList()
         if (filteredQuestions.isEmpty()) {
             return "No questions of difficulty level $roundCount available."
         }
@@ -103,7 +104,6 @@ var filteredQuestions: MutableList<Question> = mutableListOf()
         currentQuestion = question
         var useJoker: Boolean = false
 
-        // println("Which type of joker do you want to use? Joker50 / Joker100")
         currentQuestion = when (question) {
             is MultipleChoiceQuestion -> player.useJoker(question)
             is TrueOrFalseQuestion -> player.useJoker(question)
@@ -149,6 +149,12 @@ var filteredQuestions: MutableList<Question> = mutableListOf()
             val winners = listOfPlayers.filter { it.score == highestScore }
             if (winners.size == 1) {
                 winner = winners[0]
+                roundWinners.add(winner)
+                var previousRpundWinner = 0
+                if (roundWinners[previousRpundWinner]!= roundWinners.last()) {
+                    transferPoints(roundWinners.first(), roundWinners.last())
+                    previousRpundWinner++
+                } else roundWinners[previousRpundWinner].score *= 3
                 println("                               ${winner.name} is the winner!")
                 println("                   ${bold}You won ${gruen}${winner.account} ${reset}kotlin skills!!$reset\n")
                 println("New account status: ${winner.account} KTL")
@@ -164,14 +170,10 @@ var filteredQuestions: MutableList<Question> = mutableListOf()
     }
 
     fun endGame(): Boolean {
-        var gameEnded = false
-        if (winnerExists) {
-            println("           End of game. ${winner.name} won with ${winner.score} points\n")
-            println("")
 
-            gameEnded = true
-        }
-        return gameEnded
+        println("           End of game. ${winner.name} won with ${winner.score} points\n")
+        println("")
+        return true
 
     }
 
@@ -191,10 +193,14 @@ var filteredQuestions: MutableList<Question> = mutableListOf()
                 for (player in listOfPlayers) {
                     player.resetPlayers()
                 }
-
             }
         }
 
         return newRound
+    }
+
+    fun transferPoints(player1: Player, player2: Player) {
+        player2.score += (player1.score / 2)
+        player1.score = player1.score / 2
     }
 }
