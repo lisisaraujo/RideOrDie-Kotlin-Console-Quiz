@@ -5,6 +5,7 @@ import kotlinMultipleChoiceQuestions
 import kotlinQuestions
 import kotlinTrueOrFalseQuestions
 import main.Colours.*
+import java.awt.Color.orange
 
 
 fun main() {
@@ -16,19 +17,26 @@ fun main() {
     val quiz = Quiz()
     println(
         """$BOLD $rot
-         (      (      (                  )    (        (       (             
- )\ )   )\ )   )\ )            ( /(    )\ )     )\ )    )\ )          
-(()/(  (()/(  (()/(    (       )\())  (()/(    (()/(   (()/(   (      
- /(_))  /(_))  /(_))   )\     ((_)\    /(_))    /(_))   /(_))  )\     
-(_))   (_))   (_))_   ((_)      ((_)  (_))     (_))_   (_))   ((_)    
-| _ \  |_ _|   |   \  | __|    / _ \  | _ \     |   \  |_ _|  | __|   
-|   /   | |    | |) | | _|    | (_) | |   /     | |) |  | |   | _|    
-|_|_\  |___|   |___/  |___|    \___/  |_|_\     |___/  |___|  |___|   
-                                                                      
-
+                     (      (      (                  )    (        (       (             
+            )\ )   )\ )   )\ )            ( /(    )\ )     )\ )    )\ )          
+            (()/(  (()/(  (()/(    (       )\())  (()/(    (()/(   (()/(   (      
+             /(_))  /(_))  /(_))   )\     ((_)\    /(_))    /(_))   /(_))  )\     
+            (_))   (_))   (_))_   ((_)      ((_)  (_))     (_))_   (_))   ((_)  $reset  $gelb 
+            | _ \  |_ _|   |   \  | __|    / _ \  | _ \     |   \  |_ _|  | __|   
+            |   /   | |    | |) | | _|    | (_) | |   /     | |) |  | |   | _|    
+            |_|_\  |___|   |___/  |___|    \___/  |_|_\     |___/  |___|  |___|   $reset $rot
+                         .-.-.  .-.-.  .-.-.  .-.-.  .-.-.  .-.-. 
+                        ($gelb K $reset$rot.' ($gelb o $rot.' ( ${gelb}t$rot .' ( ${gelb}l$rot .' ( ${gelb}i$rot .' ( ${gelb}n$rot .' 
+                         `.(    `.(    `.(    `.(    `.(    `.(   $reset $RESET
+                                                                              
      $reset""".trimIndent()
     )
-    println("$BOLD $rot $WHITE_BACKGROUND 🤡 Welcome to final 'Ride Or Die' Kotlin quiz! 🤡 $RESET $reset")
+
+    println("""
+        $BOLD $gruen                         🚀 Welcome to our final Kotlin quiz! 🚀 $RESET $reset
+        
+        
+        """.trimIndent())
 
     quiz.startGame()
     Thread.sleep(1000)
@@ -53,18 +61,18 @@ fun main() {
                     } else {
                         player.answer(quiz.currentQuestion)
                     }
-                    Thread.sleep(500)
+                    Thread.sleep(300)
                     quiz.validateAnswer(player)
-                    Thread.sleep(500)
+                    Thread.sleep(300)
                 } else {
-                    println("🏴‍☠️${player.name}, you lost all your lives. Game over! 🏴‍☠️")
+                    println("               🏴‍☠️${player.name}, you lost all your lives. Game over! 🏴‍☠️")
                     quiz.defineWinner()
                     quiz.endGame()
                     return
                 }
 
             }
-        } while (quiz.listOfQuestions.isNotEmpty())
+        } while (quiz.filteredQuestions.isNotEmpty())
 
         quiz.defineWinner()
         quiz.endGame()
@@ -72,7 +80,7 @@ fun main() {
 
     do {
         playRound()
-    } while (quiz.startNewRound() && quiz.roundCount < 3)
+    } while (quiz.startNewRound() && quiz.roundCount <= 3)
 
     println("No questions left.")
     quiz.defineWinner()

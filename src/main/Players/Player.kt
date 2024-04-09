@@ -15,6 +15,7 @@ open class Player(val name: String, val age: Int) {
     open var jokers: MutableList<Joker> = mutableListOf()
     open var questions: MutableList<Question> = mutableListOf()
     open var playerAnswer: Any = 0
+    open var account: Double = 0.0
 
 
     init {
@@ -32,7 +33,7 @@ open class Player(val name: String, val age: Int) {
     }
 
     open fun resetPlayers() {
-        this.jokers = jokers
+        this.jokers = this.jokers
         this.lives = 3
     }
 

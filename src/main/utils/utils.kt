@@ -210,13 +210,11 @@ val kotlinMultipleChoiceQuestions: MutableList<MultipleChoiceQuestion> =
         L1kotlinQuestion3,
         L1kotlinQuestion4,
         L1kotlinQuestion5,
-
         L2kotlinQuestion6,
         L2kotlinQuestion7,
         L2kotlinQuestion8,
         L2kotlinQuestion9,
         L2kotlinQuestion10,
-
         L3kotlinQuestion11,
         L3kotlinQuestion12,
         L3kotlinQuestion13,
