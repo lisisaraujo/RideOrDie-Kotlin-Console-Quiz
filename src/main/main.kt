@@ -31,7 +31,6 @@ fun main() {
                                                                               
      $reset""".trimIndent()
     )
-    print("hi")
     println(
         """
         $BOLD $gruen                         🚀 Welcome to our final Kotlin quiz! 🚀 $RESET $reset
@@ -84,25 +83,28 @@ fun main() {
 
     }
 
-    do {
-        playRound()
-    } while (quiz.startNewRound(quiz.winnersList) && quiz.roundCount <= 3)
+    fun finalWinner(){
+        if (quiz.roundCount >= 3) {
+            if (quiz.listOfPlayers.first().account > quiz.listOfPlayers.last().account) quiz.winner =
+                quiz.listOfPlayers.first()
+            else quiz.winner = quiz.listOfPlayers.last()
 
-    if (quiz.roundCount >= 3) {
-        if (quiz.listOfPlayers.first().account > quiz.listOfPlayers.last().account) quiz.winner =
-            quiz.listOfPlayers.first()
-        else quiz.winner = quiz.listOfPlayers.last()
-
-        println("No questions left.")
-        println(
-            """$PURPLE_BACKGROUND
+            println("No questions left.")
+            println(
+                """$PURPLE_BACKGROUND
     The winner is:
    
     ${quiz.winner.name}
     
     
 $RESET""".trimIndent()
-        )
+            )
+        }
     }
 
+    do {
+        playRound()
+    } while (quiz.startNewRound(quiz.winnersList) && quiz.roundCount <= 3)
+
+finalWinner()
 }
