@@ -25,6 +25,7 @@ class Quiz(
     open var winnersList: MutableList<Player> = mutableListOf()
     open var losersList: MutableList<Player> = mutableListOf()
 
+
     private fun numOfPlayers(): Int {
         var input: Int? = null
 
@@ -180,7 +181,7 @@ class Quiz(
             }
         }
 
-        if (roundCount > 1) newRoundScoresUpdate(winnersList[winnersList.size - 2], losersList[losersList.size - 2])
+        if (roundCount > 1) newRoundScoresUpdate(winnersList.first(), losersList.first())
 
         return winnerExists
     }
@@ -244,6 +245,7 @@ class Quiz(
 
                 lastWinner.scoresList.last() == otherPlayer.scoresList.last() -> {
                     println("\nYou got lucky. Scores stay the same.\n")
+
                 }
 
                 else -> {

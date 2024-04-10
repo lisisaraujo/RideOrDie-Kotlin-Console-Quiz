@@ -83,13 +83,15 @@ fun main() {
     } while (quiz.startNewRound(quiz.winnersList) && quiz.roundCount <= 3)
 
     if (quiz.roundCount >= 3) {
+if(quiz.listOfPlayers.first().account > quiz.listOfPlayers.last().account) quiz.winner = quiz.listOfPlayers.first()
+        else quiz.winner = quiz.listOfPlayers.last()
 
         println("No questions left.")
         println(
             """
     The winner is:
-    
-    ${quiz.winnersList.last().name}
+   
+    ${quiz.winner.name}
     
     
 """.trimIndent()

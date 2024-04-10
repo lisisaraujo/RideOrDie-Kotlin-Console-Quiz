@@ -3,9 +3,8 @@ package main.Players
 import main.Jokers.Joker
 import main.Jokers.Joker100
 import main.Jokers.Joker50
-import main.Questions.MultipleChoiceQuestion
 import main.Questions.Question
-import main.Questions.TrueOrFalseQuestion
+
 
 open class Player(val name: String, val age: Int) {
     open var answerMultipleChoice: Int = 0
