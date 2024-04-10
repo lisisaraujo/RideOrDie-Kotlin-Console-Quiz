@@ -32,11 +32,13 @@ fun main() {
      $reset""".trimIndent()
     )
 
-    println("""
+    println(
+        """
         $BOLD $gruen                         🚀 Welcome to our final Kotlin quiz! 🚀 $RESET $reset
         
         
-        """.trimIndent())
+        """.trimIndent()
+    )
 
     quiz.startGame()
     Thread.sleep(1000)
@@ -46,10 +48,10 @@ fun main() {
 
         do {
             for (player in quiz.listOfPlayers) {
-                if(player.lives > 0) {
+                if (player.lives > 0) {
                     quiz.generateQuestion()
 
-                   println("${player.name}, type your answer: ")
+                    println("${player.name}, type your answer: ")
                     if (player !is MachinePlayer) {
                         player.playerAnswer = readln().lowercase()
                         if (player.playerAnswer != "joker") {
@@ -72,7 +74,7 @@ fun main() {
             }
         } while (quiz.filteredQuestions.isNotEmpty())
 
-     quiz.defineWinner()
+        quiz.defineWinner()
 
     }
 
@@ -80,17 +82,18 @@ fun main() {
         playRound()
     } while (quiz.startNewRound(quiz.winnersList) && quiz.roundCount <= 3)
 
-if(quiz.roundCount >= 3) {
+    if (quiz.roundCount >= 3) {
 
-    quiz.endGame()
-    println("No questions left.")
-println("""
+        println("No questions left.")
+        println(
+            """
     The winner is:
     
     ${quiz.winnersList.last().name}
     
     
-""".trimIndent())
-}
+""".trimIndent()
+        )
+    }
 
 }

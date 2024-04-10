@@ -199,9 +199,11 @@ class Quiz(
             println("${player.name}, as the last winner, you can decide if you want to play a new round.")
             println(
                 """
-                ${BLUE_BACKGROUND} To play another round, you must bet all of your scores.
-                IF you win, you your scores will be multiplied by 3x.
-                        ... now, if you lose... your scores will be switched with your opponents scores 🤡
+                    ${BLUE_BACKGROUND} To play another round, you must bet all of your scores.
+                    IF you win, you your scores will be multiplied by 3x.
+                     
+                     ... now, if you lose... your scores will be switched with your opponents scores 🤡
+                     
             $RESET""".trimIndent()
             )
 
@@ -215,7 +217,9 @@ class Quiz(
                     player.resetPlayer()
                 }
             }
-        } else endGame()
+        } else {
+            endGame()
+        }
 
         return newRound
     }
@@ -278,7 +282,7 @@ class Quiz(
 
     fun endGame(): Boolean {
 
-        println("           \nEnd of round.\n")
+        println("\nEnd of round.\n")
 
         for (player in listOfPlayers) {
             player.account = player.scoresList.sum() * 100
