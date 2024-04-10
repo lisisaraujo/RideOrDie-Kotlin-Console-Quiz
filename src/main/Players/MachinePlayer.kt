@@ -5,7 +5,7 @@ import main.Questions.MultipleChoiceQuestion
 import main.Questions.Question
 import main.Questions.TrueOrFalseQuestion
 
-class MachinePlayer(name: String, age: Int) : Player(name = "Machine3000", age = 18) {
+class MachinePlayer(name: String, age: Int) : Player(name = "Wannabe Kotlina", age = 18) {
 
     var typeOfJoker = jokers.random()
     override fun useJoker(question: Question): Question {
@@ -60,7 +60,7 @@ class MachinePlayer(name: String, age: Int) : Player(name = "Machine3000", age =
                 playerAnswer = randomJokerRequest.random()
             }
         }
-
+        Thread.sleep(300)
         println("${name} answer: ${playerAnswer}")
         return playerAnswer
     }

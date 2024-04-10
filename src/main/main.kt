@@ -41,16 +41,22 @@ fun main() {
     )
 
     quiz.startGame()
+    Thread.sleep(500)
+    println("\n $blauBack       🃏 Type 'joker' to request a joker at any time🃏         $reset \n")
     Thread.sleep(1000)
-    println("\n $blauBack 🃏 Type 'joker' to request a joker at any time 🃏 $reset \n")
+
+    println("                       ${gruen}LETS GO!$reset\n")
+    Thread.sleep(300)
+    println("                       Round ${quiz.roundCount}\n")
+    Thread.sleep(300)
 
     fun playRound() {
 
         do {
             for (player in quiz.listOfPlayers) {
                 if (player.lives > 0) {
+                    Thread.sleep(300)
                     quiz.generateQuestion()
-
                     println("${player.name}, type your answer: ")
                     if (player !is MachinePlayer) {
                         player.playerAnswer = readln().lowercase()
@@ -83,18 +89,19 @@ fun main() {
     } while (quiz.startNewRound(quiz.winnersList) && quiz.roundCount <= 3)
 
     if (quiz.roundCount >= 3) {
-if(quiz.listOfPlayers.first().account > quiz.listOfPlayers.last().account) quiz.winner = quiz.listOfPlayers.first()
+        if (quiz.listOfPlayers.first().account > quiz.listOfPlayers.last().account) quiz.winner =
+            quiz.listOfPlayers.first()
         else quiz.winner = quiz.listOfPlayers.last()
 
         println("No questions left.")
         println(
-            """
+            """$PURPLE_BACKGROUND
     The winner is:
    
     ${quiz.winner.name}
     
     
-""".trimIndent()
+$RESET""".trimIndent()
         )
     }
 
