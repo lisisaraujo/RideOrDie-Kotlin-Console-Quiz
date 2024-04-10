@@ -66,23 +66,23 @@ fun main() {
                     Thread.sleep(300)
                 } else {
                     println("               🏴‍☠️${player.name}, you lost all your lives. Game over! 🏴‍☠️")
-                    quiz.defineWinner()
-                    quiz.endGame()
                     return
                 }
 
             }
         } while (quiz.filteredQuestions.isNotEmpty())
 
-        quiz.defineWinner()
-        quiz.endGame()
+     quiz.defineWinner()
+
     }
 
     do {
         playRound()
-    } while (quiz.startNewRound() && quiz.roundCount <= 3)
+    } while (quiz.startNewRound(quiz.winnersList.last()) && quiz.roundCount <= 3)
 
+if(quiz.roundCount >= 3) {
     println("No questions left.")
-    quiz.defineWinner()
     quiz.endGame()
+}
+
 }

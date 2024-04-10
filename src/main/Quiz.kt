@@ -18,26 +18,29 @@ class Quiz(
     var winnerExists = false
     var winner: Player = Player("", 0)
     var currentQuestion: Question = listOfQuestions.random()
-    var maxPlayers = 4
+    var maxPlayers = 2
     var filteredQuestions: MutableList<Question> = mutableListOf()
     var roundWinners: MutableList<Player> = mutableListOf()
+    var previousRoundWinnerIndex = 0
+    open var winnersList: MutableList<Player> = mutableListOf(Player("", 0))
+    open var losersList: MutableList<Player> = mutableListOf()
 
     private fun numOfPlayers(): Int {
         var input: Int? = null
 
         while (input == null) {
-            println("How many players? 1 - 4")
+            println("How many players? 1 - 2")
             val inputString = readlnOrNull()
 
             if (inputString != null) {
                 try {
                     input = inputString.toInt()
                     if (input !in 1..maxPlayers) {
-                        println("$rot Invalid number of players. Please enter a number between 1 and 4. $reset")
+                        println("$rot Invalid number of players. Please enter a 1 or 2. $reset")
                         input = null
                     }
                 } catch (e: NumberFormatException) {
-                    println("$rot Invalid input. Please enter a number between 1 and 4. $reset")
+                    println("$rot Invalid input. Please enter 1 or 2. $reset")
                 }
             }
         }
@@ -56,9 +59,9 @@ class Quiz(
             println("$i. ${player.name}")
             i++
         }
-        if (listOfPlayers.size >= 2) {
-            if (roundCount < 1) println("\n Game started. Round $roundCount \n")
-            else println("\n New game started. Round $roundCount \n ")
+        if (listOfPlayers.size == 2) {
+            if (roundCount == 1) println("\n Game started. Round $roundCount \n")
+            else println("\n New round started. Round $roundCount \n ")
         } else {
             println("Not enough players for the game to start. Let another player join. \n")
             println("Would you like to play against the machine? Yes / No \n")
@@ -102,96 +105,128 @@ class Quiz(
 
     fun useJokerQuestion(player: Player, question: Question): Boolean {
         currentQuestion = question
-        var useJoker: Boolean = false
+        println("You have ${player.jokers.size} jokers to use:")
+        for (joker in player.jokers) println(joker.type)
+        println("which type of joker do you want to use? Joker50 / Joker100")
 
         currentQuestion = when (question) {
             is MultipleChoiceQuestion -> player.useJoker(question)
             is TrueOrFalseQuestion -> player.useJoker(question)
             else -> question
         }
-        useJoker = true
-        return useJoker
+        return true
     }
 
 
     fun validateAnswer(player: Player): Boolean {
         var isAnswerCorrect = false
 
+        println("Checking answer...")
+        Thread.sleep(500)
+
         if (player.answerMultipleChoice == currentQuestion.correctAnswer || player.answerTrueOfFalse == currentQuestion.correctAnswer) {
-            println("Checking answer...")
-            Thread.sleep(500)
             println("\n ${GREEN_BACKGROUND}E ${player.name} ✅ Correct answer! ✅ $RESET \n ")
             isAnswerCorrect = true
             player.score += 5
-            player.account = player.score * 1000.0
+            player.account += player.scoresList.sum() * 100
         } else {
-            println("Checking answer...")
-            Thread.sleep(500)
             println("\n $RED_BACKGROUND ${player.name} ❌ Wrong answer! ❌ $RESET \n")
             player.lives -= 1
         }
-        println("Points: ${player.score}")
+        println("Scores: ${player.scoresList.sum()}")
         println("Lives: ${player.lives}")
         println("Account: ${player.account}")
         return isAnswerCorrect
     }
 
     fun defineWinner(): Boolean {
-        var playersScores: MutableList<Int> = mutableListOf()
+
 
         for (player in listOfPlayers) {
-            playersScores.add(player.score)
+            player.scoresList.add(player.score)
+
         }
 
-        val highestScore = playersScores.maxOrNull()
+        when {
+            listOfPlayers.first().scoresList.last() > listOfPlayers.last().scoresList.last() -> {
+                println("${listOfPlayers.first().name} won this round --> ${listOfPlayers.first().scoresList.last()} Scores")
+                winnersList.add(listOfPlayers.first())
+                losersList.add(listOfPlayers.last())
+            }
 
-        if (highestScore != null) {
-            val winners = listOfPlayers.filter { it.score == highestScore }
-            if (winners.size == 1) {
-                winner = winners[0]
-                roundWinners.add(winner)
-                var previousRpundWinner = 0
-                if (roundWinners[previousRpundWinner]!= roundWinners.last()) {
-                    transferPoints(roundWinners.first(), roundWinners.last())
-                    previousRpundWinner++
-                } else roundWinners[previousRpundWinner].score *= 3
-                println("                               ${winner.name} is the winner!")
-                println("                   ${bold}You won ${gruen}${winner.account} ${reset}kotlin skills!!$reset\n")
-                println("New account status: ${winner.account} KTL")
-                winnerExists = true
-            } else println("It's a tie!")
-        }
+            listOfPlayers.last().scoresList.last() > listOfPlayers.first().scoresList.last() -> {
+                println("${listOfPlayers.last().name} won this round --> ${listOfPlayers.last().scoresList.last()} Scores")
+                winnersList.add(listOfPlayers.last())
+                losersList.add(listOfPlayers.first())
+            }
 
-        for (player in listOfPlayers) {
-            println("${player.name}: ${player.score} points.")
+            else -> {
+
+                println(
+                    """
+                It's a tie!
+                ${listOfPlayers.first().name} --> ${listOfPlayers.first().scoresList.last()} Scores
+                ${listOfPlayers.last().name}  --> ${listOfPlayers.last().scoresList.last()} Scores
+            """.trimIndent()
+                )
+            }
         }
+        if (roundCount > 1) newRoundScoresUpdate(winnersList.last(), losersList.last())
+
+        // for (player in listOfPlayers) println("${player.name}: ${player.scoresList.last()} scores")
+
+        //  if(roundCount < 3) startNewRound()
+
+        /*       val highestScore = playersScores.maxOrNull()
+
+               if (highestScore != null) {
+                   val winners = listOfPlayers.filter { it.score == highestScore }
+                   if (winners.size == 1) {
+                       winner = winners[0]
+                       roundWinners.add(winner)
+
+                       println("                   ${bold}${roundWinners.last().name} won this round --> ${gruen}${roundWinners.last().score} ${reset}Scores$reset\n")
+                       println("                     New account status: ${roundWinners.last().account} KTL\n")
+
+                       winnerExists = true
+
+                   } else {
+                       println("It's a tie!")
+                       winnerExists = false
+                       startNewRound()
+                   }
+               }
+               if (roundCount > 1) transferScores(listOfPlayers.first(), listOfPlayers.last())*/
+
+        /*        for (player in listOfPlayers) {
+                    println("${player.name}: ${player.score} scores. --> ${player.account} KTL.")
+                }*/
 
         return winnerExists
     }
 
-    fun endGame(): Boolean {
 
-        println("           End of game. ${winner.name} won with ${winner.score} points\n")
-        println("")
-        return true
-
-    }
-
-
-    fun startNewRound(): Boolean {
+    fun startNewRound(player: Player): Boolean {
         var playNewRoundInput: String?
         var newRound = false
         if (endGame()) {
-            println("To play another round, you must bett half of your winnings.")
-            println("IF you win, you your points will be multiplied by 3x")
-            println("... now, if you lose... your points will go to your opponent 🤡")
-            println(" \n Would you like to play another round? Yes / No \n")
+            println("${player.name}, as a winner, you can decide if you want to play a new round.")
+            println(
+                """
+                ${BLUE_BACKGROUND} To play another round, you must bet all of your scores.
+                IF you win, you your scores will be multiplied by 3x.
+                        ... now, if you lose... your scores will be switched with your opponents scores 🤡
+            $RESET""".trimIndent()
+            )
+
+            println(" \n ${player.name}, would you like to play another round? ${GREEN_BACKGROUND}Yes$RESET / ${RED_BACKGROUND}No $RESET\n")
+
             playNewRoundInput = readln().lowercase()
             if (playNewRoundInput == "yes") {
                 newRound = true
                 roundCount++
                 for (player in listOfPlayers) {
-                    player.resetPlayers()
+                    player.resetPlayer()
                 }
             }
         }
@@ -199,8 +234,75 @@ class Quiz(
         return newRound
     }
 
-    fun transferPoints(player1: Player, player2: Player) {
-        player2.score += (player1.score / 2)
-        player1.score = player1.score / 2
+    private fun multiplyScores(player: Player) {
+        val newPlayerScores = player.scoresList.map { it * 3 }
+        player.scoresList = newPlayerScores.toMutableList()
+        println("\n${player.name}: Your scores have been multiplied!! New scores: ${player.scoresList.sum()}\n")
+    }
+
+    private fun newRoundScoresUpdate(lastWinner: Player, otherPlayer: Player) {
+        if (roundCount > 1) {
+
+            when {
+                lastWinner.scoresList.last() - 1 > otherPlayer.scoresList.last() -> {
+                    multiplyScores(lastWinner)
+                }
+
+
+                lastWinner.scoresList.last() == otherPlayer.scoresList.last() -> {
+                    println("\nYou got lucky. Scores stay the same.\n")
+                }
+
+                else -> {
+                    switchScores(lastWinner, otherPlayer)
+                    multiplyScores(winnersList.last())
+                }
+            }
+        }
+
+
+        /*
+         if (roundWinners[previousRoundWinnerIndex] != roundWinners.last()) {
+             player2.account += (player1.account / 2)
+             player1.account /= 2
+             previousRoundWinnerIndex++
+         } else roundWinners[previousRoundWinnerIndex].account *= 3*/
+    }
+
+    private fun switchScores(player1: Player, player2: Player) {
+
+        var player1NewScores: MutableList<Int> = mutableListOf()
+        var player2NewScores: MutableList<Int> = mutableListOf()
+
+        player1NewScores = player2.scoresList
+        player2NewScores = player1.scoresList
+        player1.scoresList = player1NewScores
+        player2.scoresList = player2NewScores
+        println(
+            """
+                    Your scores have been switched!
+                    ${player1.name}: ${player1.scoresList.sum()} scores
+                    ${player2.name}: ${player2.scoresList.sum()} scores
+                    
+                """.trimIndent()
+        )
+    }
+
+    fun endGame(): Boolean {
+
+        println("           \nEnd of round.\n")
+
+        for (player in listOfPlayers) {
+            player.account = player.scoresList.sum() * 100
+            println(
+                """
+                    ${player.name}: 
+                    ${player.scoresList.sum()} scores
+                    ${player.account} KTL
+                   
+                """.trimIndent()
+            )
+        }
+        return true
     }
 }
