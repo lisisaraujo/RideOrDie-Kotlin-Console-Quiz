@@ -31,7 +31,7 @@ fun main() {
                                                                               
      $reset""".trimIndent()
     )
-
+    print("hi")
     println(
         """
         $BOLD $gruen                         🚀 Welcome to our final Kotlin quiz! 🚀 $RESET $reset
