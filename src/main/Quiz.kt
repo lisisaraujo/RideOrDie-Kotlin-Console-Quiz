@@ -22,7 +22,7 @@ class Quiz(
     var filteredQuestions: MutableList<Question> = mutableListOf()
     var roundWinners: MutableList<Player> = mutableListOf()
     var previousRoundWinnerIndex = 0
-    open var winnersList: MutableList<Player> = mutableListOf(Player("", 0))
+    open var winnersList: MutableList<Player> = mutableListOf()
     open var losersList: MutableList<Player> = mutableListOf()
 
     private fun numOfPlayers(): Int {
@@ -169,49 +169,27 @@ class Quiz(
                 ${listOfPlayers.first().name} --> ${listOfPlayers.first().scoresList.last()} Scores
                 ${listOfPlayers.last().name}  --> ${listOfPlayers.last().scoresList.last()} Scores
             $RESET
-            
+                 
             """.trimIndent()
                 )
+                losersList.add(listOfPlayers.first())
+                losersList.add(listOfPlayers.last())
             }
         }
 
-        if (roundCount > 1) newRoundScoresUpdate(winnersList.last(), losersList.last())
-      //  if(roundCount == 3) newRoundScoresUpdate(winnersList[winnersList.size - 2], losersList[losersList.size - 2])
-
-        // for (player in listOfPlayers) println("${player.name}: ${player.scoresList.last()} scores")
-
-        //  if(roundCount < 3) startNewRound()
-
-        /*       val highestScore = playersScores.maxOrNull()
-
-               if (highestScore != null) {
-                   val winners = listOfPlayers.filter { it.score == highestScore }
-                   if (winners.size == 1) {
-                       winner = winners[0]
-                       roundWinners.add(winner)
-
-                       println("                   ${bold}${roundWinners.last().name} won this round --> ${gruen}${roundWinners.last().score} ${reset}Scores$reset\n")
-                       println("                     New account status: ${roundWinners.last().account} KTL\n")
-
-                       winnerExists = true
-
-                   } else {
-                       println("It's a tie!")
-                       winnerExists = false
-                       startNewRound()
-                   }
-               }
-               if (roundCount > 1) transferScores(listOfPlayers.first(), listOfPlayers.last())*/
-
-        /*        for (player in listOfPlayers) {
-                    println("${player.name}: ${player.score} scores. --> ${player.account} KTL.")
-                }*/
+        if (roundCount > 1) newRoundScoresUpdate(winnersList[winnersList.size - 2], losersList[losersList.size - 2])
 
         return winnerExists
     }
 
 
-    fun startNewRound(player: Player): Boolean {
+    fun startNewRound(winnerList: MutableList<Player>): Boolean {
+        var player: Player
+        if (winnerList.size == 0) {
+            player = listOfPlayers.first()
+        } else {
+            player = winnerList.last()
+        }
         var playNewRoundInput: String?
         var newRound = false
         if (endGame()) {
@@ -240,9 +218,12 @@ class Quiz(
     }
 
     private fun multiplyScores(player: Player) {
-        val newPlayerScores = player.scoresList.map { it * 3 }
-        player.scoresList = newPlayerScores.toMutableList()
-        println("\n${player.name}: Your scores have been multiplied!! New scores: ${player.scoresList.sum()}\n")
+        if (roundCount > 1) {
+            val newPlayerScores = player.scoresList.map { it * 3 }
+            player.scoresList = newPlayerScores.toMutableList()
+            println("\n${player.name}: Your scores have been multiplied!! New scores: ${player.scoresList.sum()}\n")
+        }
+
     }
 
     private fun newRoundScoresUpdate(lastWinner: Player, otherPlayer: Player) {
@@ -264,17 +245,9 @@ class Quiz(
             }
         }
 
-
-        /*
-         if (roundWinners[previousRoundWinnerIndex] != roundWinners.last()) {
-             player2.account += (player1.account / 2)
-             player1.account /= 2
-             previousRoundWinnerIndex++
-         } else roundWinners[previousRoundWinnerIndex].account *= 3*/
     }
 
     private fun switchScores(player1: Player, player2: Player) {
-
         var player1NewScores: MutableList<Int> = mutableListOf()
         var player2NewScores: MutableList<Int> = mutableListOf()
 

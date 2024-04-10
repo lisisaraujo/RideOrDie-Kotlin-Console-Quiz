@@ -5,7 +5,6 @@ import kotlinMultipleChoiceQuestions
 import kotlinQuestions
 import kotlinTrueOrFalseQuestions
 import main.Colours.*
-import java.awt.Color.orange
 
 
 fun main() {
@@ -78,7 +77,7 @@ fun main() {
 
     do {
         playRound()
-    } while (quiz.startNewRound(quiz.winnersList.last()) && quiz.roundCount <= 3)
+    } while (quiz.startNewRound(quiz.winnersList) && quiz.roundCount <= 3)
 
 if(quiz.roundCount >= 3) {
     println("No questions left.")
