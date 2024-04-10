@@ -326,10 +326,15 @@ open class Quiz(
             println("No questions left.")
             println(
                 """$PURPLE_BACKGROUND
-    The winner is:
-   
-    ${winner.name}
-   
+------------------------------------------------------------------------------------------------------------------------------------
+                                    The winner is:
+                                   
+                                    ${winner.name}
+                                    
+                                    YOU WON ${winner.account} new Kotlin skills!!! 🤓
+                                    
+                                    You are ready for the next module. See you there!! 👋🏻
+------------------------------------------------------------------------------------------------------------------------------------
     
 $RESET""".trimIndent()
             )

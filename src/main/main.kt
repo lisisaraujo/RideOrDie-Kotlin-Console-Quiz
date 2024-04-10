@@ -15,8 +15,9 @@ fun main() {
 
 
     val quiz = Quiz()
-    println(
-        """$BOLD $rot
+    fun printQuizIntro(){
+        println(
+            """$BOLD $rot
                      (      (      (                  )    (        (       (             
             )\ )   )\ )   )\ )            ( /(    )\ )     )\ )    )\ )          
             (()/(  (()/(  (()/(    (       )\())  (()/(    (()/(   (()/(   (      
@@ -30,7 +31,9 @@ fun main() {
                          `.(    `.(    `.(    `.(    `.(    `.(   $reset $RESET
                                                                               
      $reset""".trimIndent()
-    )
+        )
+    }
+    printQuizIntro()
     println(
         """
         $BOLD $gruen                         🚀 Welcome to our final Kotlin quiz! 🚀 $RESET $reset
@@ -89,5 +92,7 @@ fun main() {
         playRound()
     } while (quiz.startNewRound(quiz.winnersList) && quiz.roundCount <= 3)
 
+
 quiz.finalWinner()
+    printQuizIntro()
 }
