@@ -5,6 +5,7 @@ import kotlinMultipleChoiceQuestions
 import kotlinQuestions
 import kotlinTrueOrFalseQuestions
 import main.Colours.*
+import main.Players.Player
 
 
 fun main() {
@@ -80,8 +81,16 @@ fun main() {
     } while (quiz.startNewRound(quiz.winnersList) && quiz.roundCount <= 3)
 
 if(quiz.roundCount >= 3) {
-    println("No questions left.")
+
     quiz.endGame()
+    println("No questions left.")
+println("""
+    The winner is:
+    
+    ${quiz.winnersList.last().name}
+    
+    
+""".trimIndent())
 }
 
 }

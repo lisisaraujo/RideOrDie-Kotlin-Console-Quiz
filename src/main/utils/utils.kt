@@ -207,15 +207,15 @@ val kotlinMultipleChoiceQuestions: MutableList<MultipleChoiceQuestion> =
 
   /*      L1kotlinQuestion1,
         L1kotlinQuestion2,*/
-        //L1kotlinQuestion3,
-        L1kotlinQuestion4,
+        L1kotlinQuestion3,
+       L1kotlinQuestion4,
         L1kotlinQuestion5,
     /*    L2kotlinQuestion6,
         L2kotlinQuestion7,*/
-       // L2kotlinQuestion8,
+        L2kotlinQuestion8,
         L2kotlinQuestion9,
         L2kotlinQuestion10,
-       // L3kotlinQuestion11,
+        L3kotlinQuestion11,
         L3kotlinQuestion12,
         L3kotlinQuestion13,
   /*      L3kotlinQuestion14,
@@ -346,15 +346,15 @@ val kotlinTrueOrFalseQuestions: MutableList<TrueOrFalseQuestion> =
 
 /*        L1kotlinQuestion16,
         L1kotlinQuestion17,*/
-      //  L1kotlinQuestion18,
+        L1kotlinQuestion18,
         L1kotlinQuestion19,
         L1kotlinQuestion20,
    /*     L2kotlinQuestion21,
         L2kotlinQuestion22,*/
-       // L2kotlinQuestion23,
-        L2kotlinQuestion24,
+        L2kotlinQuestion23,
+       L2kotlinQuestion24,
         L2kotlinQuestion25,
-       // L3kotlinQuestion26,
+        L3kotlinQuestion26,
         L3kotlinQuestion27,
         L3kotlinQuestion28,
   /*      L3kotlinQuestion29,

@@ -141,7 +141,6 @@ class Quiz(
 
     fun defineWinner(): Boolean {
 
-
         for (player in listOfPlayers) {
             player.scoresList.add(player.score)
 
@@ -150,6 +149,7 @@ class Quiz(
         when {
             listOfPlayers.first().scoresList.last() > listOfPlayers.last().scoresList.last() -> {
                 println("\n$GREEN_BACKGROUND${listOfPlayers.first().name} won this round --> ${listOfPlayers.first().scoresList.last()} Scores $RESET\n")
+
                 winnersList.add(listOfPlayers.first())
                 losersList.add(listOfPlayers.last())
             }
@@ -174,6 +174,9 @@ class Quiz(
                 )
                 losersList.add(listOfPlayers.first())
                 losersList.add(listOfPlayers.last())
+                winnersList.add(listOfPlayers.first())
+                winnersList.add(listOfPlayers.last())
+
             }
         }
 
@@ -185,14 +188,14 @@ class Quiz(
 
     fun startNewRound(winnerList: MutableList<Player>): Boolean {
         var player: Player
-        if (winnerList.size == 0) {
+        if (winnerList.isEmpty()) {
             player = listOfPlayers.first()
         } else {
             player = winnerList.last()
         }
         var playNewRoundInput: String?
         var newRound = false
-        if (endGame()) {
+        if (endGame() && roundCount < 3) {
             println("${player.name}, as the last winner, you can decide if you want to play a new round.")
             println(
                 """
@@ -205,14 +208,14 @@ class Quiz(
             println(" \n ${player.name}, would you like to play another round? ${GREEN_BACKGROUND}Yes$RESET / ${RED_BACKGROUND}No $RESET\n")
 
             playNewRoundInput = readln().lowercase()
-            if (playNewRoundInput == "yes") {
+            if (playNewRoundInput.contains("y")) {
                 newRound = true
                 roundCount++
                 for (player in listOfPlayers) {
                     player.resetPlayer()
                 }
             }
-        }
+        } else endGame()
 
         return newRound
     }
@@ -227,7 +230,7 @@ class Quiz(
     }
 
     private fun newRoundScoresUpdate(lastWinner: Player, otherPlayer: Player) {
-        if (roundCount > 1) {
+        if (roundCount > 1 && winnersList.isNotEmpty()) {
 
             when {
                 lastWinner.scoresList.last() > otherPlayer.scoresList.last() -> {
@@ -251,18 +254,26 @@ class Quiz(
         var player1NewScores: MutableList<Int> = mutableListOf()
         var player2NewScores: MutableList<Int> = mutableListOf()
 
-        player1NewScores = player2.scoresList
-        player2NewScores = player1.scoresList
-        player1.scoresList = player1NewScores
-        player2.scoresList = player2NewScores
-        println(
-            """
+        if (player1.scoresList.sum() > player2.scoresList.sum()) {
+            player1NewScores = player2.scoresList
+            player1.scoresList = player1NewScores
+            player2NewScores = player1.scoresList
+            player2.scoresList = player2NewScores
+
+            println(
+                """
                     Your scores have been switched!
                     ${player1.name}: ${player1.scoresList.sum()} scores
                     ${player2.name}: ${player2.scoresList.sum()} scores
                     
                 """.trimIndent()
-        )
+            )
+
+        } else {
+            println("As ${player2.name} made overall scores are still higher than yours after this round, you stay with your scores 🤡")
+        }
+
+
     }
 
     fun endGame(): Boolean {
