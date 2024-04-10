@@ -317,4 +317,22 @@ open class Quiz(
         }
         return true
     }
+    open fun finalWinner(){
+        if (roundCount >= 3) {
+            if (listOfPlayers.first().account > listOfPlayers.last().account) winner =
+                listOfPlayers.first()
+            else winner = listOfPlayers.last()
+
+            println("No questions left.")
+            println(
+                """$PURPLE_BACKGROUND
+    The winner is:
+   
+    ${winner.name}
+   
+    
+$RESET""".trimIndent()
+            )
+        }
+    }
 }
