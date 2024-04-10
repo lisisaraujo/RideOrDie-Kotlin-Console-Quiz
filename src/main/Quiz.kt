@@ -149,13 +149,13 @@ class Quiz(
 
         when {
             listOfPlayers.first().scoresList.last() > listOfPlayers.last().scoresList.last() -> {
-                println("${listOfPlayers.first().name} won this round --> ${listOfPlayers.first().scoresList.last()} Scores")
+                println("\n$GREEN_BACKGROUND${listOfPlayers.first().name} won this round --> ${listOfPlayers.first().scoresList.last()} Scores $RESET\n")
                 winnersList.add(listOfPlayers.first())
                 losersList.add(listOfPlayers.last())
             }
 
             listOfPlayers.last().scoresList.last() > listOfPlayers.first().scoresList.last() -> {
-                println("${listOfPlayers.last().name} won this round --> ${listOfPlayers.last().scoresList.last()} Scores")
+                println("\n$GREEN_BACKGROUND${listOfPlayers.last().name} won this round --> ${listOfPlayers.last().scoresList.last()} Scores$RESET\n")
                 winnersList.add(listOfPlayers.last())
                 losersList.add(listOfPlayers.first())
             }
@@ -163,15 +163,20 @@ class Quiz(
             else -> {
 
                 println(
-                    """
+                    """$YALLOW_BACKGROUND
+                        
                 It's a tie!
                 ${listOfPlayers.first().name} --> ${listOfPlayers.first().scoresList.last()} Scores
                 ${listOfPlayers.last().name}  --> ${listOfPlayers.last().scoresList.last()} Scores
+            $RESET
+            
             """.trimIndent()
                 )
             }
         }
+
         if (roundCount > 1) newRoundScoresUpdate(winnersList.last(), losersList.last())
+      //  if(roundCount == 3) newRoundScoresUpdate(winnersList[winnersList.size - 2], losersList[losersList.size - 2])
 
         // for (player in listOfPlayers) println("${player.name}: ${player.scoresList.last()} scores")
 
@@ -210,7 +215,7 @@ class Quiz(
         var playNewRoundInput: String?
         var newRound = false
         if (endGame()) {
-            println("${player.name}, as a winner, you can decide if you want to play a new round.")
+            println("${player.name}, as the last winner, you can decide if you want to play a new round.")
             println(
                 """
                 ${BLUE_BACKGROUND} To play another round, you must bet all of your scores.
@@ -244,7 +249,7 @@ class Quiz(
         if (roundCount > 1) {
 
             when {
-                lastWinner.scoresList.last() - 1 > otherPlayer.scoresList.last() -> {
+                lastWinner.scoresList.last() > otherPlayer.scoresList.last() -> {
                     multiplyScores(lastWinner)
                 }
 
@@ -255,7 +260,6 @@ class Quiz(
 
                 else -> {
                     switchScores(lastWinner, otherPlayer)
-                    multiplyScores(winnersList.last())
                 }
             }
         }
