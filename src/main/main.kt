@@ -5,7 +5,7 @@ import kotlinMultipleChoiceQuestions
 import kotlinQuestions
 import kotlinTrueOrFalseQuestions
 import main.Colours.*
-import main.Players.Player
+
 
 
 fun main() {

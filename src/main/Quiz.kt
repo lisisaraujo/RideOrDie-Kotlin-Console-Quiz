@@ -9,7 +9,7 @@ import main.Questions.MultipleChoiceQuestion
 import main.Questions.Question
 import main.Questions.TrueOrFalseQuestion
 
-class Quiz(
+open class Quiz(
 
 ) {
     var listOfPlayers: MutableList<Player> = mutableListOf()
@@ -20,10 +20,8 @@ class Quiz(
     var currentQuestion: Question = listOfQuestions.random()
     var maxPlayers = 2
     var filteredQuestions: MutableList<Question> = mutableListOf()
-    var roundWinners: MutableList<Player> = mutableListOf()
-    var previousRoundWinnerIndex = 0
-    open var winnersList: MutableList<Player> = mutableListOf()
-    open var losersList: MutableList<Player> = mutableListOf()
+    var winnersList: MutableList<Player> = mutableListOf()
+    var losersList: MutableList<Player> = mutableListOf()
 
 
     private fun numOfPlayers(): Int {
@@ -134,16 +132,7 @@ class Quiz(
             println("\n $RED_BACKGROUND ${player.name} ❌ Wrong answer! ❌ $RESET \n")
             player.lives -= 1
         }
-        println("""
-            ~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~
-                        Scores: ${player.scoresList.sum()}
-                        Lives: ${player.lives}
-                        Account: ${player.account}
-            ~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~
-        """.trimIndent())
-        println("")
-        println("")
-        println("")
+        printPlayersScores(player)
         return isAnswerCorrect
     }
 
@@ -172,12 +161,12 @@ class Quiz(
 
                 println(
                     """     
-               $YALLOW_BACKGROUND It's a tie! 🤼
+               $gelb It's a tie! 🤼
                ${listOfPlayers.first().name} --> ${listOfPlayers.first().scoresList.last()} Scores
                ${listOfPlayers.last().name}  --> ${listOfPlayers.last().scoresList.last()} Scores
            
                  
-            $RESET """.trimIndent()
+            $reset """.trimIndent()
                 )
                 losersList.add(listOfPlayers.first())
                 losersList.add(listOfPlayers.last())
@@ -238,12 +227,14 @@ class Quiz(
             val newPlayerScores = player.scoresList.map { it * 3 }
             player.scoresList = newPlayerScores.toMutableList()
             Thread.sleep(300)
-            println("""
+            println(
+                """
                 ${player.name}: Your scores have been multiplied!! 🎉 
                 
                 New scores: ${player.scoresList.sum()} 😎
                 
-            """.trimIndent())
+            """.trimIndent()
+            )
         }
 
     }
@@ -295,6 +286,18 @@ class Quiz(
         }
 
 
+    }
+
+    private fun printPlayersScores(player: Player) {
+        println(
+            """
+            ~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~
+                                Scores: ${player.score}
+                                Lives: ${player.lives}
+                                Account: ${player.account}
+            ~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~
+        """.trimIndent()
+        )
     }
 
     fun endGame(): Boolean {
