@@ -16,7 +16,7 @@ open class Quiz(
     var listOfQuestions = kotlinQuestions
     var roundCount: Int = 1
     var winnerExists = false
-    var winner: Player = Player("", 0)
+    var winners: MutableList<Player> = mutableListOf()
     var currentQuestion: Question = listOfQuestions.random()
     var maxPlayers = 2
     var filteredQuestions: MutableList<Question> = mutableListOf()
@@ -226,6 +226,7 @@ open class Quiz(
                 }
             }
         } else {
+            finalWinner()
             endGame()
         }
 
@@ -255,8 +256,8 @@ open class Quiz(
         Thread.sleep(300)
         if (player1.scoresList.sum() > player2.scoresList.sum()) {
             player1NewScores = player2.scoresList
-            player1.scoresList = player1NewScores
             player2NewScores = player1.scoresList
+            player1.scoresList = player1NewScores
             player2.scoresList = player2NewScores
 
             println(
@@ -314,7 +315,7 @@ open class Quiz(
         println()
         println("${blau}Next question...$reset")
         println()
-        Thread.sleep(1000)
+        Thread.sleep(500)
     }
 
     fun endGame(): Boolean {
@@ -336,26 +337,35 @@ open class Quiz(
     }
 
     open fun finalWinner() {
-        if (roundCount >= 3) {
-            if (listOfPlayers.first().account > listOfPlayers.last().account) winner =
-                listOfPlayers.first()
-            else winner = listOfPlayers.last()
+        println("No questions left.")
 
-            println("No questions left.")
-            println(
-                """$PURPLE_BACKGROUND
+        if (listOfPlayers.first().account > listOfPlayers.last().account) {
+            winners.add(listOfPlayers.first())
+        } else if (listOfPlayers.first().account == listOfPlayers.last().account) {
+            winners.add(listOfPlayers.first())
+            winners.add(listOfPlayers.last())
+            println("${gruen}                       What a lucky day! You both won!!$reset")
+        } else winners.add(listOfPlayers.last())
+
+
+        println(
+            """$PURPLE_BACKGROUND
 ------------------------------------------------------------------------------------------------------------------------------------
                                     The winner is:
                                    
-                                    ${winner.name}
+                                    ${winners.last().name}
                                     
-                                    YOU WON ${winner.account} new Kotlin Skills!!! 🤓
+                                    YOU WON ${winners.last().account} new Kotlin Skills!!! 🤓
                                     
                                     You are ready for the next module. See you there!! 👋🏻
 ------------------------------------------------------------------------------------------------------------------------------------
     
 $RESET""".trimIndent()
-            )
-        }
+        )
+
+    }
+
+    fun printWinnersName() {
+        for (winner in winners) println(winner.name)
     }
 }
