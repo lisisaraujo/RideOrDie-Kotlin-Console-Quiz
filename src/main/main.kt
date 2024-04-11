@@ -7,7 +7,6 @@ import kotlinTrueOrFalseQuestions
 import main.Colours.*
 
 
-
 fun main() {
 
     kotlinQuestions.addAll(kotlinMultipleChoiceQuestions)
@@ -15,7 +14,7 @@ fun main() {
 
 
     val quiz = Quiz()
-    fun printQuizIntro(){
+    fun printQuizIntro() {
         println(
             """$BOLD $rot
                      (      (      (                  )    (        (       (             
@@ -47,10 +46,13 @@ fun main() {
     println("\n $blauBack       🃏 Type 'joker' to request a joker at any time🃏         $reset \n")
     Thread.sleep(1000)
 
-    println("                       ${gruen}LETS GO!$reset\n")
-    Thread.sleep(300)
-    println("                       Round ${quiz.roundCount}\n")
-    Thread.sleep(300)
+
+    fun printRound() {
+        println("                       ${gruen}LETS GO!$reset\n")
+        Thread.sleep(300)
+        println("                       Round ${quiz.roundCount}\n")
+        Thread.sleep(300)
+    }
 
     fun playRound() {
 
@@ -89,10 +91,12 @@ fun main() {
 
 
     do {
+        printRound()
         playRound()
     } while (quiz.startNewRound(quiz.winnersList) && quiz.roundCount <= 3)
-
-
-quiz.finalWinner()
+    Thread.sleep(1000)
     printQuizIntro()
+    Thread.sleep(1000)
+    quiz.finalWinner()
+
 }

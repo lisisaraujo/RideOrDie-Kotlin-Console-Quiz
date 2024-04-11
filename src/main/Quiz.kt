@@ -23,7 +23,7 @@ open class Quiz(
     var winnersList: MutableList<Player> = mutableListOf()
     var losersList: MutableList<Player> = mutableListOf()
 
-
+    // ask for how many players
     private fun numOfPlayers(): Int {
         var input: Int? = null
 
@@ -46,6 +46,24 @@ open class Quiz(
         return input
     }
 
+    // for each player input, generate a player
+    private fun generatePlayer() {
+        println("------------- Add player -------------")
+        print("Name: ")
+        val name = readln().lowercase()
+        print("Age: ")
+        val age = readln().toInt()
+        val player = HumanPlayer(name, age)
+        if (player.ageCheck()) {
+            listOfPlayers.add(player)
+        } else {
+            generatePlayer()
+        }
+
+        Thread.sleep(500)
+    }
+
+    // check if there is enough players to start game. If not, asf to play with AI
     fun startGame() {
         val numOfPlayers = numOfPlayers()
         var i = 1
@@ -71,22 +89,8 @@ open class Quiz(
 
     }
 
-    private fun generatePlayer() {
-        println("------------- Add player -------------")
-        print("Name: ")
-        val name = readln().lowercase()
-        print("Age: ")
-        val age = readln().toInt()
-        val player = HumanPlayer(name, age)
-        if (player.ageCheck()) {
-            listOfPlayers.add(player)
-        } else {
-            generatePlayer()
-        }
 
-        Thread.sleep(500)
-    }
-
+    // generate question for each player
     fun generateQuestion(): String {
         filteredQuestions = listOfQuestions.filter { it.difficultyLevel == roundCount }.toMutableList()
         if (filteredQuestions.isEmpty()) {
@@ -102,6 +106,8 @@ open class Quiz(
         return currentQuestion.questionText
     }
 
+    // if players answer is 'JOKER', ask which joker they want to use
+    // depending on the type o joker, the joker will have a different outcome
     fun useJokerQuestion(player: Player, question: Question): Boolean {
         currentQuestion = question
         println("You have ${player.jokers.size} jokers to use:")
@@ -116,7 +122,7 @@ open class Quiz(
         return true
     }
 
-
+    // check if answer is correct or wrong. Update scores and lives depending on the outcome
     fun validateAnswer(player: Player): Boolean {
         var isAnswerCorrect = false
 
@@ -124,7 +130,7 @@ open class Quiz(
         Thread.sleep(500)
 
         if (player.answerMultipleChoice == currentQuestion.correctAnswer || player.answerTrueOfFalse == currentQuestion.correctAnswer) {
-            println("\n ${GREEN_BACKGROUND}E ${player.name} ✅ Correct answer! ✅ $RESET \n ")
+            println("\n ${GREEN_BACKGROUND} ${player.name} ✅ Correct answer! ✅ $RESET \n ")
             isAnswerCorrect = true
             player.score += 5
             player.account += player.scoresList.sum() * 100
@@ -136,13 +142,13 @@ open class Quiz(
         return isAnswerCorrect
     }
 
+    // checks who won in the current round
     fun defineWinner(): Boolean {
 
         for (player in listOfPlayers) {
             player.scoresList.add(player.score)
 
         }
-
         when {
             listOfPlayers.first().scoresList.last() > listOfPlayers.last().scoresList.last() -> {
                 println("\n 🚀$gruen${listOfPlayers.first().name} won this round --> ${listOfPlayers.first().scoresList.last()} Scores $reset 🚀\n")
@@ -168,10 +174,13 @@ open class Quiz(
                  
             $reset """.trimIndent()
                 )
-                losersList.add(listOfPlayers.first())
-                losersList.add(listOfPlayers.last())
-                winnersList.add(listOfPlayers.first())
-                winnersList.add(listOfPlayers.last())
+                if (roundCount == 1) {
+                    losersList.add(listOfPlayers.first())
+                    losersList.add(listOfPlayers.last())
+                    winnersList.add(listOfPlayers.first())
+                    winnersList.add(listOfPlayers.last())
+                }
+
 
             }
         }
@@ -181,7 +190,8 @@ open class Quiz(
         return winnerExists
     }
 
-
+    // asks last winner if they want to start a new round
+    // if yes, resets players scores and starts a new round on the next level
     fun startNewRound(winnerList: MutableList<Player>): Boolean {
         var player: Player
         if (winnerList.isEmpty()) {
@@ -239,29 +249,6 @@ open class Quiz(
 
     }
 
-    private fun newRoundScoresUpdate(lastWinner: Player, otherPlayer: Player) {
-        if (roundCount > 1 && winnersList.isNotEmpty()) {
-
-            when {
-                lastWinner.scoresList.last() > otherPlayer.scoresList.last() -> {
-                    multiplyScores(lastWinner)
-                }
-
-
-                lastWinner.scoresList.last() == otherPlayer.scoresList.last() -> {
-                    Thread.sleep(300)
-                    println("\nYou got lucky. Scores stay the same.\n")
-
-                }
-
-                else -> {
-                    switchScores(lastWinner, otherPlayer)
-                }
-            }
-        }
-
-    }
-
     private fun switchScores(player1: Player, player2: Player) {
         var player1NewScores: MutableList<Int> = mutableListOf()
         var player2NewScores: MutableList<Int> = mutableListOf()
@@ -288,16 +275,46 @@ open class Quiz(
 
     }
 
+    private fun newRoundScoresUpdate(lastWinner: Player, otherPlayer: Player) {
+        if (roundCount > 1 && winnersList.isNotEmpty()) {
+
+            when {
+                lastWinner.scoresList.last() > otherPlayer.scoresList.last() -> {
+                    multiplyScores(lastWinner)
+                }
+
+
+                lastWinner.scoresList.last() == otherPlayer.scoresList.last() -> {
+                    Thread.sleep(300)
+                    println("\nYou got lucky. Scores stay the same.\n")
+
+                }
+
+                else -> {
+                    switchScores(lastWinner, otherPlayer)
+                }
+            }
+        }
+
+    }
+
+
     private fun printPlayersScores(player: Player) {
+        Thread.sleep(500)
         println(
             """
-            ~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~
-                                Scores: ${player.score}
-                                Lives: ${player.lives}
-                                Account: ${player.account}
-            ~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~
+            ~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~
+                         Scores: ${player.score}
+                         Lives: ${player.lives}
+                         Account: ${player.account}
+            ~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~^~
         """.trimIndent()
         )
+        Thread.sleep(500)
+        println()
+        println("${blau}Next question...$reset")
+        println()
+        Thread.sleep(1000)
     }
 
     fun endGame(): Boolean {
@@ -317,7 +334,8 @@ open class Quiz(
         }
         return true
     }
-    open fun finalWinner(){
+
+    open fun finalWinner() {
         if (roundCount >= 3) {
             if (listOfPlayers.first().account > listOfPlayers.last().account) winner =
                 listOfPlayers.first()
@@ -331,7 +349,7 @@ open class Quiz(
                                    
                                     ${winner.name}
                                     
-                                    YOU WON ${winner.account} new Kotlin skills!!! 🤓
+                                    YOU WON ${winner.account} new Kotlin Skills!!! 🤓
                                     
                                     You are ready for the next module. See you there!! 👋🏻
 ------------------------------------------------------------------------------------------------------------------------------------

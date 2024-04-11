@@ -12,7 +12,6 @@ open class Question(
 
 
     open fun showQuestion() {
-        Thread.sleep(300)
         println("$blau \n ----------------  $category question: level $difficultyLevel ----------------  \n $reset")
         println("\n Question: $questionText \n")
         for (answer in possibleAnswers) {
