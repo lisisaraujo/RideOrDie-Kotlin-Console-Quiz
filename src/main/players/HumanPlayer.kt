@@ -1,10 +1,10 @@
-package main.Players
+package main.players
 
-import main.Jokers.Joker100
-import main.Jokers.Joker50
-import main.Questions.MultipleChoiceQuestion
-import main.Questions.Question
-import main.Questions.TrueOrFalseQuestion
+import main.jokers.Joker100
+import main.jokers.Joker50
+import main.questions.MultipleChoiceQuestion
+import main.questions.Question
+import main.questions.TrueOrFalseQuestion
 
 class HumanPlayer(name: String, age: Int) : Player(name, age) {
 

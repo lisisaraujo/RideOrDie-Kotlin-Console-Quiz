@@ -1,4 +1,4 @@
-package main.Colours
+package main.colours
 
 // Textfarben (gibt natürlich viele mehr)
 val rot = "\u001B[31m"

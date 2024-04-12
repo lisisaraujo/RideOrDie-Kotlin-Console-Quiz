@@ -1,9 +1,9 @@
-import main.Jokers.Joker100
-import main.Jokers.Joker50
-import main.Players.Player
-import main.Questions.MultipleChoiceQuestion
-import main.Questions.Question
-import main.Questions.TrueOrFalseQuestion
+import main.jokers.Joker100
+import main.jokers.Joker50
+import main.players.Player
+import main.questions.MultipleChoiceQuestion
+import main.questions.Question
+import main.questions.TrueOrFalseQuestion
 
 class MachinePlayer(name: String, age: Int) : Player(name = "Wannabe Kotlina", age = 18) {
 
@@ -20,7 +20,7 @@ class MachinePlayer(name: String, age: Int) : Player(name = "Wannabe Kotlina", a
             else -> null
         }
         typeOfJoker = jokers.random()
-        jokers.removeIf { it == selectedJoker }
+        jokers.removeIf { it == selectedJoker && jokers.isNotEmpty()}
         return typeOfJoker.playJoker(question)
     }
 

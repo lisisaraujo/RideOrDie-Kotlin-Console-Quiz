@@ -4,7 +4,7 @@ import MachinePlayer
 import kotlinMultipleChoiceQuestions
 import kotlinQuestions
 import kotlinTrueOrFalseQuestions
-import main.Colours.*
+import main.colours.*
 
 
 fun main() {
@@ -93,10 +93,10 @@ fun main() {
     do {
         printRound()
         playRound()
-    } while (quiz.startNewRound(quiz.winnersList) && quiz.roundCount <= 3)
-    Thread.sleep(1000)
-    printQuizIntro()
+    } while (quiz.startNewRound(quiz.roundWinners) && quiz.roundCount <= 3)
     Thread.sleep(1000)
     quiz.finalWinner()
+    Thread.sleep(1000)
+    printQuizIntro()
 
 }

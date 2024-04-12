@@ -1,7 +1,7 @@
-package main.Jokers
+package main.jokers
 
-import main.Players.Player
-import main.Questions.Question
+import main.players.Player
+import main.questions.Question
 
 open class Joker(open var type: String, var player: Player) {
 

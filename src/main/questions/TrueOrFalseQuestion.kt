@@ -1,19 +1,19 @@
-package main.Questions
+package main.questions
 
-class MultipleChoiceQuestion(
+class TrueOrFalseQuestion(
     difficultyLevel: Int,
     questionText: String,
     category: String,
     possibleAnswers: List<String>,
-    override var correctAnswer: Int = 0
-
-    ) : Question(
+    override var correctAnswer: Boolean = false
+) : Question(
     difficultyLevel,
     questionText,
     category,
     possibleAnswers,
 
-    ) {
+) {
+
 
 
 }

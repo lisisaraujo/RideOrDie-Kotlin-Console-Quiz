@@ -1,9 +1,9 @@
-package main.Players
+package main.players
 
-import main.Jokers.Joker
-import main.Jokers.Joker100
-import main.Jokers.Joker50
-import main.Questions.Question
+import main.jokers.Joker
+import main.jokers.Joker100
+import main.jokers.Joker50
+import main.questions.Question
 
 
 open class Player(val name: String, val age: Int) {

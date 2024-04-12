@@ -1,7 +1,6 @@
-import main.Questions.MultipleChoiceQuestion
-import main.Questions.Question
-import main.Questions.TrueOrFalseQuestion
-import kotlin.jvm.internal.Intrinsics.Kotlin
+import main.questions.MultipleChoiceQuestion
+import main.questions.Question
+import main.questions.TrueOrFalseQuestion
 
 
 // multiple-choice kotlin questions

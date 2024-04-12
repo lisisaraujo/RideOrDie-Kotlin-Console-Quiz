@@ -1,9 +1,9 @@
-package main.Jokers
+package main.jokers
 
-import main.Players.Player
-import main.Questions.MultipleChoiceQuestion
-import main.Questions.Question
-import main.Questions.TrueOrFalseQuestion
+import main.players.Player
+import main.questions.MultipleChoiceQuestion
+import main.questions.Question
+import main.questions.TrueOrFalseQuestion
 
 class Joker100(player: Player) : Joker(type = "Joker100", player) {
 

@@ -2,12 +2,12 @@ package main
 
 import MachinePlayer
 import kotlinQuestions
-import main.Colours.*
-import main.Players.HumanPlayer
-import main.Players.Player
-import main.Questions.MultipleChoiceQuestion
-import main.Questions.Question
-import main.Questions.TrueOrFalseQuestion
+import main.colours.*
+import main.players.HumanPlayer
+import main.players.Player
+import main.questions.MultipleChoiceQuestion
+import main.questions.Question
+import main.questions.TrueOrFalseQuestion
 
 open class Quiz(
 
@@ -16,12 +16,14 @@ open class Quiz(
     var listOfQuestions = kotlinQuestions
     var roundCount: Int = 1
     var winnerExists = false
-    var winners: MutableList<Player> = mutableListOf()
+    var roundWinners: MutableList<Player> = mutableListOf()
     var currentQuestion: Question = listOfQuestions.random()
     var maxPlayers = 2
     var filteredQuestions: MutableList<Question> = mutableListOf()
-    var winnersList: MutableList<Player> = mutableListOf()
+    var finalWinners: MutableList<Player> = mutableListOf()
     var losersList: MutableList<Player> = mutableListOf()
+    var player1: Player = Player("", 0)
+    var player2: Player = Player("", 0)
 
     // ask for how many players
     private fun numOfPlayers(): Int {
@@ -86,6 +88,8 @@ open class Quiz(
             if (machinePlayAnswer.contains("y")) listOfPlayers.add(MachinePlayer("Machine3000", 18))
             else generatePlayer()
         }
+        player1 = listOfPlayers.first()
+        player2 = listOfPlayers.last()
 
     }
 
@@ -150,17 +154,17 @@ open class Quiz(
 
         }
         when {
-            listOfPlayers.first().scoresList.last() > listOfPlayers.last().scoresList.last() -> {
-                println("\n 🚀$gruen${listOfPlayers.first().name} won this round --> ${listOfPlayers.first().scoresList.last()} Scores $reset 🚀\n")
+            player1.scoresList.last() > player2.scoresList.last() -> {
+                println("\n 🚀$gruen${player1.name} won this round --> ${player1.scoresList.last()} Scores $reset 🚀\n")
 
-                winnersList.add(listOfPlayers.first())
-                losersList.add(listOfPlayers.last())
+                roundWinners.add(player1)
+                losersList.add(player2)
             }
 
-            listOfPlayers.last().scoresList.last() > listOfPlayers.first().scoresList.last() -> {
-                println("\n🚀 $gruen${listOfPlayers.last().name} won this round --> ${listOfPlayers.last().scoresList.last()} Scores$reset 🚀\n")
-                winnersList.add(listOfPlayers.last())
-                losersList.add(listOfPlayers.first())
+            player2.scoresList.last() > player1.scoresList.last() -> {
+                println("\n🚀 $gruen${player2.name} won this round --> ${player2.scoresList.last()} Scores$reset 🚀\n")
+                roundWinners.add(player2)
+                losersList.add(player1)
             }
 
             else -> {
@@ -168,43 +172,38 @@ open class Quiz(
                 println(
                     """     
                $gelb It's a tie! 🤼
-               ${listOfPlayers.first().name} --> ${listOfPlayers.first().scoresList.last()} Scores
-               ${listOfPlayers.last().name}  --> ${listOfPlayers.last().scoresList.last()} Scores
+               ${player1.name} --> ${player1.scoresList.last()} Scores
+               ${player2.name}  --> ${player2.scoresList.last()} Scores
            
                  
             $reset """.trimIndent()
                 )
-                if (roundCount == 1) {
-                    losersList.add(listOfPlayers.first())
-                    losersList.add(listOfPlayers.last())
-                    winnersList.add(listOfPlayers.first())
-                    winnersList.add(listOfPlayers.last())
-                }
-
 
             }
         }
 
-        if (roundCount > 1) newRoundScoresUpdate(winnersList.first(), losersList.first())
+        if (roundCount > 1 && roundWinners.isNotEmpty()) newRoundScoresUpdate(roundWinners.first(), losersList.first())
 
         return winnerExists
     }
 
     // asks last winner if they want to start a new round
     // if yes, resets players scores and starts a new round on the next level
-    fun startNewRound(winnerList: MutableList<Player>): Boolean {
-        var player: Player
-        if (winnerList.isEmpty()) {
-            player = listOfPlayers.first()
+    fun startNewRound(roundWinners: MutableList<Player>): Boolean {
+        val player: Player
+        if (roundWinners.isEmpty()) {
+            player = Player("No one", 12)
         } else {
-            player = winnerList.last()
+            player = roundWinners.last()
         }
-        var playNewRoundInput: String?
+
+        val playNewRoundInput: String?
         var newRound = false
         if (endGame() && roundCount < 3) {
             println("")
-            println(
-                """
+            if (roundWinners.isNotEmpty()) {
+                println(
+                    """
                     $gruen${player.name}$reset, as the last winner, you can decide if you want to play a new round.
                     
                     To play another round, you must bet all of your scores.
@@ -213,9 +212,11 @@ open class Quiz(
                     ... now, if you lose... your scores will be switched with your opponents scores 🤡
                      
            """.trimIndent()
-            )
+                )
+                println("\n$gruen${player.name}$reset, would you like to play another round? ${gruen}Yes$reset / ${rot}No$reset\n")
 
-            println("\n$gruen${player.name}$reset, would you like to play another round? ${GREEN_BACKGROUND}Yes$RESET / ${RED_BACKGROUND}No $RESET\n")
+            } else println("\n Would you like to play another round? ${gruen}Yes$reset / ${rot}No$reset\n")
+
 
             playNewRoundInput = readln().lowercase()
             if (playNewRoundInput.contains("y")) {
@@ -225,16 +226,13 @@ open class Quiz(
                     player.resetPlayer()
                 }
             }
-        } else {
-            finalWinner()
-            endGame()
         }
 
         return newRound
     }
 
     private fun multiplyScores(player: Player) {
-        if (roundCount > 1) {
+        if (roundCount > 1 && roundWinners.isNotEmpty()) {
             val newPlayerScores = player.scoresList.map { it * 3 }
             player.scoresList = newPlayerScores.toMutableList()
             Thread.sleep(300)
@@ -254,7 +252,7 @@ open class Quiz(
         var player1NewScores: MutableList<Int> = mutableListOf()
         var player2NewScores: MutableList<Int> = mutableListOf()
         Thread.sleep(300)
-        if (player1.scoresList.sum() > player2.scoresList.sum()) {
+        if (player1.scoresList.sum() > player2.scoresList.sum() && roundWinners.isNotEmpty()) {
             player1NewScores = player2.scoresList
             player2NewScores = player1.scoresList
             player1.scoresList = player1NewScores
@@ -277,7 +275,7 @@ open class Quiz(
     }
 
     private fun newRoundScoresUpdate(lastWinner: Player, otherPlayer: Player) {
-        if (roundCount > 1 && winnersList.isNotEmpty()) {
+        if (roundCount > 1 && roundWinners.isNotEmpty()) {
 
             when {
                 lastWinner.scoresList.last() > otherPlayer.scoresList.last() -> {
@@ -339,33 +337,31 @@ open class Quiz(
     open fun finalWinner() {
         println("No questions left.")
 
-        if (listOfPlayers.first().account > listOfPlayers.last().account) {
-            winners.add(listOfPlayers.first())
-        } else if (listOfPlayers.first().account == listOfPlayers.last().account) {
-            winners.add(listOfPlayers.first())
-            winners.add(listOfPlayers.last())
-            println("${gruen}                       What a lucky day! You both won!!$reset")
-        } else winners.add(listOfPlayers.last())
+        if (player1.account > player2.account) {
+            finalWinners.add(player1)
+        } else if (player1.account == player2.account) {
+            finalWinners.add(player1)
+            finalWinners.add(player2)
+            println("${gruen}                           What a lucky day! You both won!!$reset")
+        } else {
+            finalWinners.add(player2)
+        }
 
+        println(PURPLE_BACKGROUND)
+        println("------------------------------------------------------------------------------------------------------------------------------------")
+        println("                                    The winner(s) is/are:")
 
-        println(
-            """$PURPLE_BACKGROUND
-------------------------------------------------------------------------------------------------------------------------------------
-                                    The winner is:
-                                   
-                                    ${winners.last().name}
-                                    
-                                    YOU WON ${winners.last().account} new Kotlin Skills!!! 🤓
-                                    
-                                    You are ready for the next module. See you there!! 👋🏻
-------------------------------------------------------------------------------------------------------------------------------------
-    
-$RESET""".trimIndent()
-        )
+        for (winner in finalWinners) {
+            println("                                    ${winner.name}")
+            println()
+            println("                                    YOU WON ${winner.account} new Kotlin Skills!!! 🤓")
+            println("                                    You are ready for the next module. See you there!! 👋🏻")
+            println()
+        }
 
+        println("------------------------------------------------------------------------------------------------------------------------------------")
+        println(RESET)
     }
 
-    fun printWinnersName() {
-        for (winner in winners) println(winner.name)
-    }
+
 }

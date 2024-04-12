@@ -1,6 +1,6 @@
-package main.Questions
+package main.questions
 
-import main.Colours.*
+import main.colours.*
 
 open class Question(
     open val difficultyLevel: Int,
